@@ -51,6 +51,7 @@ import AddAppointmentPage from "./pages/AdminPages/Appointment/AddAppointmentPag
 import ListAppointmentPage from "./pages/AdminPages/Appointment/ListAppointmentPage";
 import AddReportTemplatePage from "./pages/AdminPages/LaboratoryReports/AddReportTemplatePage";
 import ListReportTemplatePage from "./pages/AdminPages/LaboratoryReports/ListReportTemplatePage";
+import AddPrescriptionPage from "./pages/AdminPages/Prescription/AddPrescriptionPage";
 
 export const RouteData: RouteInterface[] = [
 	{
@@ -134,6 +135,21 @@ export const RouteData: RouteInterface[] = [
 		exact: true,
 		component: ListDoctorPage,
 	},
+
+// Prescreiption
+{
+	path: ROUTE_LIST.createPrescrption,
+	exact: false,
+	component: AddPrescriptionPage,
+},
+{
+	path: ROUTE_LIST.listPrescrption,
+	exact: true,
+	component: ListDoctorPage,
+},
+
+
+
 	// Patient
 	{
 		path: ROUTE_LIST.createPatient,

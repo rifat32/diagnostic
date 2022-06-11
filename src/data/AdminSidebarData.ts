@@ -109,15 +109,13 @@ export const adminSideBarData: NavInterface[] = [
 			{
 				name: "Create Prescription",
 				link: "/admin/prescription/create",
-				permissions: ["create requisition"],
+				permissions: [],
 			},
 			{
 				name: "Prescription",
 				link: "/admin/prescription",
 				permissions: [
-					"approve requisition",
-					"cancel requisition",
-					"create requisition",
+					
 				],
 			},
 		

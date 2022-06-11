@@ -136,17 +136,17 @@ export const RouteData: RouteInterface[] = [
 		component: ListDoctorPage,
 	},
 
-// Prescreiption
-{
-	path: ROUTE_LIST.createPrescrption,
-	exact: false,
-	component: AddPrescriptionPage,
-},
-{
-	path: ROUTE_LIST.listPrescrption,
-	exact: true,
-	component: ListDoctorPage,
-},
+// // Prescreiption
+// {
+// 	path: ROUTE_LIST.createPrescrption,
+// 	exact: false,
+// 	component: AddPrescriptionPage,
+// },
+// {
+// 	path: ROUTE_LIST.listPrescrption,
+// 	exact: true,
+// 	component: ListDoctorPage,
+// },
 
 
 
@@ -172,18 +172,28 @@ export const RouteData: RouteInterface[] = [
 		exact: true,
 		component: ListAppointmentPage,
 	},
+	// // Laboratory Tests
+	// {
+	// 	path: ROUTE_LIST.createReportTemplate,
+	// 	exact: false,
+	// 	component: AddReportTemplatePage,
+	// },
+	// {
+	// 	path: ROUTE_LIST.listReportTemplate,
+	// 	exact: true,
+	// 	component: ListReportTemplatePage,
+	// },
 	// Laboratory Tests
 	{
-		path: ROUTE_LIST.createReportTemplate,
+		path: ROUTE_LIST.createPrescrption,
 		exact: false,
 		component: AddReportTemplatePage,
 	},
 	{
-		path: ROUTE_LIST.listReportTemplate,
+		path: ROUTE_LIST.listPrescrption,
 		exact: true,
 		component: ListReportTemplatePage,
 	},
-
 	// products
 	{
 		path: "/admin/products/create",

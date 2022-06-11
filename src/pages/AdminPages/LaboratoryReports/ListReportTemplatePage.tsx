@@ -13,14 +13,14 @@ const ListReportTemplatePage: React.FC = () => {
 		<AdminPageComponent>
 			<main id="main" className="main">
 				<div className="pagetitle">
-					<h1>List Lab Report Templates</h1>
+					<h1>List Prescription</h1>
 					<nav>
 						<ol className="breadcrumb">
 							<li className="breadcrumb-item">
 								<a href="index.html">Home</a>
 							</li>
-							<li className="breadcrumb-item">Laboratory Tests</li>
-							<li className="breadcrumb-item active">List Lab Report Templates</li>
+							<li className="breadcrumb-item">Prescription</li>
+							<li className="breadcrumb-item active">Prescribtion</li>
 						</ol>
 					</nav>
 				</div>
@@ -31,9 +31,9 @@ const ListReportTemplatePage: React.FC = () => {
 							<div className="card">
 								<div className="card-body">
 									<div className="d-flex justify-content-between align-items-end">
-										<h5 className="card-title">All Lab Report Templates</h5>
+										<h5 className="card-title">All Prescribtion</h5>
 										<Link
-											to={ROUTE_LIST.createReportTemplate}
+											to={ROUTE_LIST.createPrescrption}
 											className="btn btn-primary">
 											Add Data
 										</Link>

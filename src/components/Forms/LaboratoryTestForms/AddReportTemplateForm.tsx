@@ -30,11 +30,18 @@ const AddReportTemplateForm: React.FC<UpdateFormInterface> = (props) => {
 
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setToggleTemplate(false)
+		// setToggleTemplate(false)
 		setFormData({ ...formData, [e.target.name]: e.target.value });
-		setTemplate(" ")
-		setToggleTemplate(true)
+		// setTemplate(" ")
+		// setToggleTemplate(true)
 	
+		
+	};
+	const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+	
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+		
+	console.log(e.target.value)
 		
 	};
 	const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -57,8 +64,10 @@ const AddReportTemplateForm: React.FC<UpdateFormInterface> = (props) => {
 		}
 	};
 	const createData = () => {
+		
+		console.log(localStorage.getItem("prescription") )
 		apiClient()
-			.post(`${BACKENDAPI}/v1.0/report-templates`, { ...formData,template })
+			.post(`${BACKENDAPI}/v1.0/report-templates`, { ...formData,template:localStorage.getItem("prescription") })
 			.then((response) => {
 				console.log(response);
 				toast.success("Data saved");
@@ -141,14 +150,16 @@ const AddReportTemplateForm: React.FC<UpdateFormInterface> = (props) => {
 				)}
 				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>
-			<div className="col-md-12">
+			<div className="col-md-12" >
 				<label htmlFor="template" className="form-label">
-					 Template
+					 Prescribtion
 				</label>
-				{
-					toggleTemplate && <JoditReact onChange={(content) => setTemplate(content)} defaultValue={template} />
-				}
+				{/* {
+					toggleTemplate && <JoditReact onChange={(content) => setTemplate(content)} defaultValue={template}   />
+				} */}
+			{/* <JoditReact onChange={(content) => setTemplate(content)} defaultValue={template} /> */}
 				{/* <JoditReact onChange={(content) => setTemplate(content)} defaultValue={formData.template} /> */}
+				<textarea id="editor" onChange={handleTextAreaChange} name="template" value={formData.template}></textarea>
 				<input
 					type="hidden"
 					className={
@@ -162,6 +173,7 @@ const AddReportTemplateForm: React.FC<UpdateFormInterface> = (props) => {
 					name="template"
 					onChange={handleChange}
 					value={formData.template}
+					
 				/>
 				{errors?.template && (
 					<div className="invalid-feedback">{errors.template[0]}</div>
@@ -170,10 +182,10 @@ const AddReportTemplateForm: React.FC<UpdateFormInterface> = (props) => {
 			</div>
 			
 		
-		
+	
 
 			<div className="text-center">
-				<button type="submit" className="btn btn-primary me-2">
+				<button type="submit" id="save" className="btn btn-primary me-2">
 					Submit
 				</button>
 				<button

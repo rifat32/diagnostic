@@ -16,8 +16,8 @@ const AddReportTemplatePage: React.FC = () => {
 							<li className="breadcrumb-item">
 								<a href="index.html">Home</a>
 							</li>
-							<li className="breadcrumb-item">Laboratort Tests</li>
-							<li className="breadcrumb-item active">Add Lab Report Template</li>
+							<li className="breadcrumb-item">Prescribtion</li>
+							<li className="breadcrumb-item active">Add Prescribtion</li>
 						</ol>
 					</nav>
 				</div>
@@ -27,7 +27,7 @@ const AddReportTemplatePage: React.FC = () => {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">Add Lab Report Template</h5>
+									<h5 className="card-title">Add Prescribtion</h5>
 
 									<AddReportTemplateForm />
 								</div>

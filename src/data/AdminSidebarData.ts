@@ -103,41 +103,41 @@ export const adminSideBarData: NavInterface[] = [
 		
 		],
 	},
-	{
-		name: "Prescription",
-		list: [
-			{
-				name: "Create Prescription",
-				link: "/admin/prescription/create",
-				permissions: [],
-			},
-			{
-				name: "Prescription",
-				link: "/admin/prescription",
-				permissions: [
-					
-				],
-			},
-		
-		],
-	},
 	// {
-	// 	name: "Laboratory Tests",
+	// 	name: "Prescription",
 	// 	list: [
 	// 		{
-	// 			name: "Add Sample",
-	// 			link: ROUTE_LIST.createReportTemplate,
+	// 			name: "Create Prescription",
+	// 			link: "/admin/prescription/create",
 	// 			permissions: [],
 	// 		},
 	// 		{
-	// 			name: "List Sample",
-	// 			link: ROUTE_LIST.listReportTemplate,
-	// 			permissions: [],
+	// 			name: "Prescription",
+	// 			link: "/admin/prescription",
+	// 			permissions: [
+					
+	// 			],
 	// 		},
-
 		
 	// 	],
 	// },
+	{
+		name: "Prescribtion",
+		list: [
+			{
+				name: "Add Prescribtion",
+				link: ROUTE_LIST.createPrescrption,
+				permissions: [],
+			},
+			{
+				name: "List Prescribtion",
+				link: ROUTE_LIST.listPrescrption,
+				permissions: [],
+			},
+
+		
+		],
+	},
 	{
 		name: "Product",
 		list: [

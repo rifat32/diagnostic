@@ -83,12 +83,14 @@
 		<script src="/assets/vendor/chart.js/chart.min.js"></script>
 		<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
 		<script src="/assets/vendor/echarts/echarts.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.18.9/jodit.min.js" integrity="sha512-gGCJxcoy4jIgrAOfbIo/C+d6N0V0w4dAYTk3IZIaYGU0PgES371H6er6/hBU3Eewk3bsf/KYL1k8uAOwwytOtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.18.9/jodit.min.js" integrity="sha512-gGCJxcoy4jIgrAOfbIo/C+d6N0V0w4dAYTk3IZIaYGU0PgES371H6er6/hBU3Eewk3bsf/KYL1k8uAOwwytOtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 		<!-- Template Main JS File -->
 		<script src="/assets/js/main.js"></script>
 
-		<script>
+		<!-- <script>
+			
 			setTimeout(() => {
+				document.getElementById("editor").style.display = "block"
 				var editor = new Jodit('#editor', {
 				zIndex: 0,
 				readonly: false,
@@ -180,9 +182,9 @@
 			 localStorage.setItem("prescription",text);
 			})
 		
-			}, 2000);
+			}, 1000);
 			
-		</script>
+		</script> -->
 		
 	</body>
 </html>

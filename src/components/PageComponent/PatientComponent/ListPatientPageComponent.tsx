@@ -75,6 +75,7 @@ const ListPatientsPageComponent: React.FC = () => {
 						<th scope="col">Phone</th>
 						<th scope="col">Address</th>
 						<th scope="col">Sex</th>
+						<th scope="col">Age</th>
 						<th scope="col">Action</th>
 					</tr>
 				</thead>
@@ -87,6 +88,7 @@ const ListPatientsPageComponent: React.FC = () => {
 									<td>{el.name && el.name}</td>
 									<td>{el.phone && el.phone}</td>
 									<td>{el.address && el.address}</td>
+									<td>{el.age && el.age}</td>
 									<td>{el.sex && el.sex}</td>
 						
 									<td>

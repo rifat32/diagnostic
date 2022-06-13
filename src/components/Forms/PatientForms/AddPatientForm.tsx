@@ -3,6 +3,7 @@ import { BACKENDAPI } from "../../../config";
 import { apiClient } from "../../../utils/apiClient";
 import { toast } from "react-toastify";
 import { UpdateFormInterface } from "../../../interfaces/UpdateFormInterfaced";
+import { ErrorMessage } from "../../../utils/ErrorMessage";
 
 interface FormData {
 	name: string;
@@ -10,7 +11,8 @@ interface FormData {
 	address: string;
 	phone: string;
 	sex: string;
-	birth_date:string,
+	// birth_date:string,
+	age:string,
 	blood_group: string;
 
 
@@ -24,7 +26,7 @@ const AddPatientForm: React.FC<UpdateFormInterface> = (props) => {
 	address: '',
 	phone: '',
 	sex: '',
-	birth_date:'',
+	age:'',
 	blood_group: '',
 	
 	});
@@ -49,7 +51,7 @@ const AddPatientForm: React.FC<UpdateFormInterface> = (props) => {
 			address: '',
 			phone: '',
 			sex: '',
-			birth_date:'',
+			age:'',
 			blood_group: '',
 		});
 	};
@@ -72,16 +74,13 @@ const AddPatientForm: React.FC<UpdateFormInterface> = (props) => {
 			})
 			.catch((error) => {
 				console.log(error.response);
-				if (
-					error.response.status === 404 ||
-					error.response.status === 400
-				) {
-					toast.error(error.response.data.message);
-				}
+			
+			
 				if (error.response.status === 422) {
 					toast.error("invalid input");
 					setErrors(error.response.data.errors);
 				}
+				ErrorMessage(error.response.status, error.response.data.message);
 			});
 	};
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -251,26 +250,26 @@ const AddPatientForm: React.FC<UpdateFormInterface> = (props) => {
 			
 
 			<div className="col-md-4">
-				<label htmlFor="birth_date" className="form-label">
-					Birth Date
+				<label htmlFor="age" className="form-label">
+					Age
 				</label>
 				<input
-					type="date"
+					type="text"
 					className={
 						errors
-							? errors.birth_date
+							? errors.age
 								? `form-control is-invalid`
 								: `form-control is-valid`
 							: "form-control"
 					}
-					id="birth_date"
-					name="birth_date"
+					id="age"
+					name="age"
 					onChange={handleChange}
-					value={formData.birth_date}
+					value={formData.age}
 				/>
 
-				{errors?.birth_date && (
-					<div className="invalid-feedback">{errors.birth_date[0]}</div>
+				{errors?.age && (
+					<div className="invalid-feedback">{errors.age[0]}</div>
 				)}
 				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>

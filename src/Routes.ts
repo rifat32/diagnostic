@@ -52,6 +52,7 @@ import ListAppointmentPage from "./pages/AdminPages/Appointment/ListAppointmentP
 import AddReportTemplatePage from "./pages/AdminPages/LaboratoryReports/AddReportTemplatePage";
 import ListReportTemplatePage from "./pages/AdminPages/LaboratoryReports/ListReportTemplatePage";
 import AddPrescriptionPage from "./pages/AdminPages/Prescription/AddPrescriptionPage";
+import AddReportTemplatePage2 from "./pages/AdminPages/LaboratoryReports/AddReportTemplatePage2";
 
 export const RouteData: RouteInterface[] = [
 	{
@@ -136,17 +137,17 @@ export const RouteData: RouteInterface[] = [
 		component: ListDoctorPage,
 	},
 
-// // Prescreiption
-// {
-// 	path: ROUTE_LIST.createPrescrption,
-// 	exact: false,
-// 	component: AddPrescriptionPage,
-// },
-// {
-// 	path: ROUTE_LIST.listPrescrption,
-// 	exact: true,
-// 	component: ListDoctorPage,
-// },
+// Prescreiption
+{
+	path: ROUTE_LIST.createPrescrption,
+	exact: false,
+	component: AddPrescriptionPage,
+},
+{
+	path: ROUTE_LIST.listPrescrption,
+	exact: true,
+	component: ListDoctorPage,
+},
 
 
 
@@ -184,16 +185,21 @@ export const RouteData: RouteInterface[] = [
 	// 	component: ListReportTemplatePage,
 	// },
 	// Laboratory Tests
-	{
-		path: ROUTE_LIST.createPrescrption,
-		exact: false,
-		component: AddReportTemplatePage,
-	},
-	{
-		path: ROUTE_LIST.listPrescrption,
-		exact: true,
-		component: ListReportTemplatePage,
-	},
+	// {
+	// 	path: ROUTE_LIST.createPrescrption,
+	// 	exact: false,
+	// 	component: AddReportTemplatePage,
+	// },
+	// {
+	// 	path: `${ROUTE_LIST.createPrescrption}2`,
+	// 	exact: false,
+	// 	component: AddReportTemplatePage2,
+	// },
+	// {
+	// 	path: ROUTE_LIST.listPrescrption,
+	// 	exact: true,
+	// 	component: ListReportTemplatePage,
+	// },
 	// products
 	{
 		path: "/admin/products/create",

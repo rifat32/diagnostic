@@ -11,9 +11,6 @@ interface FormData {
 	name: string;
 	template: string|undefined;
 
-	
-
-
 }
 
 const AddReportTemplateForm: React.FC<UpdateFormInterface> = (props) => {
@@ -23,7 +20,7 @@ const AddReportTemplateForm: React.FC<UpdateFormInterface> = (props) => {
 	name: "",
 	template:"",
 	});
-	
+
 	
 	const [errors, setErrors] = useState<any>(null);
 
@@ -56,36 +53,50 @@ const AddReportTemplateForm: React.FC<UpdateFormInterface> = (props) => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		setErrors(null);
-		
-		if (props.type === "update") {
-			updateData();
-		} else {
-			createData();
-		}
+
+		createData();
+		// if (props.type === "update") {
+		// 	updateData();
+		// } else {
+		// 	createData();
+		// }
 	};
+	const [loadink,setLoading] = useState(false)
 	const createData = () => {
+		setLoading(true)
+		setTimeout(() => {
+			let prescribtion = localStorage.getItem("prescription");
+			if(!prescribtion){
+
+				toast.error("Something went wrong. please contact us");
+				return;
+			}
+			console.log(prescribtion )
+			apiClient()
+				.post(`${BACKENDAPI}/v1.0/report-templates`, { ...formData,template:localStorage.getItem("prescription") })
+				.then((response) => {
+					console.log(response);
+					toast.success("Data saved");
+					// resetFunction();
+					setLoading(false)
+					localStorage.removeItem("prescription")
+				})
+				.catch((error) => {
+					localStorage.removeItem("prescription")
+					console.log(error.response);
+					if (
+						error.response.status === 404 ||
+						error.response.status === 400
+					) {
+						toast.error(error.response.data.message);
+					}
+					if (error.response.status === 422) {
+						toast.error("invalid input");
+						setErrors(error.response.data.errors);
+					}
+				});
+		},3000)
 		
-		console.log(localStorage.getItem("prescription") )
-		apiClient()
-			.post(`${BACKENDAPI}/v1.0/report-templates`, { ...formData,template:localStorage.getItem("prescription") })
-			.then((response) => {
-				console.log(response);
-				toast.success("Data saved");
-				resetFunction();
-			})
-			.catch((error) => {
-				console.log(error.response);
-				if (
-					error.response.status === 404 ||
-					error.response.status === 400
-				) {
-					toast.error(error.response.data.message);
-				}
-				if (error.response.status === 422) {
-					toast.error("invalid input");
-					setErrors(error.response.data.errors);
-				}
-			});
 	};
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// edit data section
@@ -159,7 +170,7 @@ const AddReportTemplateForm: React.FC<UpdateFormInterface> = (props) => {
 				} */}
 			{/* <JoditReact onChange={(content) => setTemplate(content)} defaultValue={template} /> */}
 				{/* <JoditReact onChange={(content) => setTemplate(content)} defaultValue={formData.template} /> */}
-				<textarea id="editor" onChange={handleTextAreaChange} name="template" value={formData.template}></textarea>
+				<textarea id="editor" style={{display:"none"}} onChange={handleTextAreaChange} name="template" value={formData.template}></textarea>
 				<input
 					type="hidden"
 					className={
@@ -182,7 +193,9 @@ const AddReportTemplateForm: React.FC<UpdateFormInterface> = (props) => {
 			</div>
 			
 		
-	
+	<div>
+		{loadink && "Loading ..."}
+	</div>
 
 			<div className="text-center">
 				<button type="submit" id="save" className="btn btn-primary me-2">

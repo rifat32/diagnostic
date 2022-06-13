@@ -1,32 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 
 import AddPatientForm from "../../../components/Forms/PatientForms/AddPatientForm";
 import AddDoctorForm from "../../../components/Forms/DoctorForms/AddDoctorForm";
 import AddReportTemplateForm from "../../../components/Forms/LaboratoryTestForms/AddReportTemplateForm";
-import { ROUTE_LIST } from "../../../RoutConstants";
 
-const AddReportTemplatePage: React.FC = () => {
-	function getDomain(url:any, subdomain:any) {
-		subdomain = subdomain || false;
-	
-		url = url.replace(/(https?:\/\/)?(www.)?/i, '');
-	
-		if (!subdomain) {
-			url = url.split('.');
-	
-			url = url.slice(url.length - 2).join('.');
-		}
-	
-		if (url.indexOf('/') !== -1) {
-			return url.split('/')[0];
-		}
-	
-		return url;
-	}
-	useEffect(() => {
-		window.location.href = `${document.location.origin}${ROUTE_LIST.createPrescrption}2`;
-	},[])
+const AddReportTemplatePage2: React.FC = () => {
 	return (
 		<AdminPageComponent>
 			<main id="main" className="main">
@@ -61,4 +40,4 @@ const AddReportTemplatePage: React.FC = () => {
 	);
 };
 
-export default AddReportTemplatePage;
+export default AddReportTemplatePage2;

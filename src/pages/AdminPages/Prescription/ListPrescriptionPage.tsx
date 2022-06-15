@@ -6,20 +6,21 @@ import { Link } from "react-router-dom";
 import ListPatientsPageComponent from "../../../components/PageComponent/PatientComponent/ListPatientPageComponent";
 import { ROUTE_LIST } from "../../../RoutConstants";
 import ListDoctorsPageComponent from "../../../components/PageComponent/DoctorComponent/ListDoctorPageComponent";
+import ListPrescriptionPageComponent from "../../../components/PageComponent/PrescriptionComponent/ListPrescriptionPageComponent";
 
-const ListDoctorPage: React.FC = () => {
+const ListPrescriptionPage: React.FC = () => {
 	return (
 		<AdminPageComponent>
 			<main id="main" className="main">
 				<div className="pagetitle">
-					<h1>List Doctors</h1>
+					<h1>List Prescriptions</h1>
 					<nav>
 						<ol className="breadcrumb">
 							<li className="breadcrumb-item">
 								<a href="index.html">Home</a>
 							</li>
-							<li className="breadcrumb-item">Doctors</li>
-							<li className="breadcrumb-item active">List Doctors</li>
+							<li className="breadcrumb-item">Prescriptions</li>
+							<li className="breadcrumb-item active">List Prescriptions</li>
 						</ol>
 					</nav>
 				</div>
@@ -32,12 +33,12 @@ const ListDoctorPage: React.FC = () => {
 									<div className="d-flex justify-content-between align-items-end">
 										<h5 className="card-title">All Doctors</h5>
 										<Link
-											to={ROUTE_LIST.createDoctor}
+											to={ROUTE_LIST.createPrescrption}
 											className="btn btn-primary">
 											Add Data
 										</Link>
 									</div>
-									<ListDoctorsPageComponent />
+									<ListPrescriptionPageComponent />
 								</div>
 							</div>
 						</div>
@@ -48,4 +49,4 @@ const ListDoctorPage: React.FC = () => {
 	);
 };
 
-export default ListDoctorPage;
+export default ListPrescriptionPage;

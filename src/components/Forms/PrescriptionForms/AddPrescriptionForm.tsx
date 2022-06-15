@@ -9,16 +9,29 @@ interface FormData {
   description: string;
   prescription: Prescription[];
   tests: Test[];
+  cc: CC[];
   note: string;
   patient_id: string;
+  next_appointment:string;
+  fees:string;
 }
 interface Prescription {
   id: string;
   product_id: string;
   product_name: string;
+  times:{
+    morning:boolean
+    afternoon:boolean
+    night:boolean
+  }
+  end_time:string
 }
 interface Test {
   name: string;
+}
+interface CC {
+  name: string;
+  value: string;
 }
 const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
   const [formData, setFormData] = useState<FormData>({
@@ -27,6 +40,22 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
     note: "",
     patient_id: "",
     tests: [{ name: "" }],
+    next_appointment:'',
+    cc:[
+      {
+name:"BP",
+value:""
+    },
+    {
+      name:"Pulse",
+      value:""
+    },
+    {
+            name:"Heart",
+            value:""
+     },
+  ],
+  fees:''
   });
 
   const [errors, setErrors] = useState<any>(null);
@@ -72,6 +101,21 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
       note: "",
       patient_id: "",
       tests: [{ name: "" }],
+      cc:[ {
+        name:"BP",
+        value:""
+            },
+            {
+              name:"Pulse",
+              value:""
+            },
+            {
+                    name:"Heart",
+                    value:""
+             },],
+            next_appointment:'',
+            fees:''
+
     });
   };
   const [search, setSearch] = useState("");
@@ -100,13 +144,26 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
         // setproduct(product);
         // setFormData({ ...formData, product_id: product.id });
         const tempValues = [...formData.prescription];
-        tempValues.push({
-          id: "0",
-          product_id: product.id,
-          product_name: product.name,
-        });
+     let foundProduct =   tempValues.find(el => {
+          return el.product_name === product.name
+        })
 
-        setFormData({ ...formData, prescription: tempValues });
+if(!foundProduct){
+  tempValues.push({
+    id: "0",
+    product_id: product.id,
+    product_name: product.name,
+    times:{
+      morning:false,
+      afternoon:false,
+      night:false,
+    },
+    end_time:''
+  });
+
+  setFormData({ ...formData, prescription: tempValues });
+}
+      
       })
       .catch((error) => {
         console.log(error.response);
@@ -128,7 +185,7 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
   };
   const createData = () => {
     apiClient()
-      .post(`${BACKENDAPI}/v1.0/doctors`, { ...formData })
+      .post(`${BACKENDAPI}/v1.0/prescriptions`, { ...formData })
       .then((response) => {
         console.log(response);
         toast.success("Data saved");
@@ -147,7 +204,20 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
   // edit data section
   useEffect(() => {
     if (props.type == "update") {
-      setFormData(props.value);
+      // setFormData(props.value);
+      apiClient().get(`${BACKENDAPI}/v1.0/prescriptions/${props.value}`)
+      .then((response:any) => {
+console.log(response)
+const{description,note,next_appointment,fees,patient_id} = response.data.data
+setFormData({
+  ...formData,
+  description,
+  note,
+  next_appointment,
+  fees,
+  patient_id
+})
+      })
     }
   }, []);
   const updateData = () => {
@@ -183,6 +253,17 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
     tempValues[index][name] = e.target.value;
     setFormData({ ...formData, prescription: tempValues });
   };
+  const handlePrescriptionCheckedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let index: number = parseInt(e.target.name.split(".")[1]);
+    let name: string = e.target.name.split(".")[3];
+    console.log(index);
+    const tempValues: any = [...formData.prescription];
+    console.log(name);
+  
+    tempValues[index]['times'][name] = e.target.checked;
+    setFormData({ ...formData, prescription: tempValues });
+  };
+  
   const handleTestChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let index: number = parseInt(e.target.name.split(".")[1]);
     let name: string = e.target.name.split(".")[2];
@@ -191,6 +272,16 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
     console.log(name);
     tempValues[index][name] = e.target.value;
     setFormData({ ...formData, tests: tempValues });
+  };
+  const handleCCChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let index: number = parseInt(e.target.name.split(".")[1]);
+    let name: string = e.target.name.split(".")[2];
+    console.log(index);
+    const tempValues: any = [...formData.cc];
+    console.log(name);
+    tempValues[index][name] = e.target.value;
+   
+    setFormData({ ...formData, cc: tempValues });
   };
   const removePresctiptionElement = (index: number) => {
     const tempValues = [...formData.prescription];
@@ -222,6 +313,31 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
       tempValues.pop();
     }
     setFormData({ ...formData, tests: tempValues });
+  };
+  const removeCCElement = (index: number) => {
+    const tempValues = [...formData.cc];
+
+    tempValues.splice(index, 1);
+
+    setFormData({ ...formData, cc: tempValues });
+  };
+
+  const AddCC = () => {
+    const tempValues = [...formData.cc];
+    tempValues.push({
+      name: "",
+      value:''
+    });
+
+    setFormData({ ...formData, cc: tempValues });
+  };
+  const deleteCC = () => {
+    const tempValues = [...formData.cc];
+
+    if (tempValues.length > 1) {
+      tempValues.pop();
+    }
+    setFormData({ ...formData, cc: tempValues });
   };
   return (
     <form className="row g-3" onSubmit={handleSubmit}>
@@ -268,8 +384,7 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Address</th>
+                   
                     <th scope="col">Sex</th>
                     <th scope="col">Age</th>
                   </tr>
@@ -277,10 +392,8 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
                 <tbody>
                   <tr>
                     <td> {currentPatient.name}</td>
-                    <td>{currentPatient.phone && currentPatient.phone}</td>
-                    <td>{currentPatient.address && currentPatient.address}</td>
-                    <td>{currentPatient.age && currentPatient.age}</td>
                     <td>{currentPatient.sex && currentPatient.sex}</td>
+                    <td>{currentPatient.age && currentPatient.age}</td>
                   </tr>
                 </tbody>
               </table>
@@ -318,11 +431,132 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
       </div>
 
       <div className="row">
-        <div className="col-md-5"></div>
+        <div className="col-md-5">
+          {/* cc */}
+          <div className="row ">
+        <div className="col-12">
+         
+            <h3 className="text-center">c/c</h3>
+        
+          <div className="row bg-primary container">
+            <div className="col-md-4">
+  
+              <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Name</p>
+            </div>
+            <div className="col-md-4">
+  
+  <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Value</p>
+</div>
+            <div className="col-md-4">
+            <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Action</p>
+             
+            </div>
+          </div>
+          <div className="row mb-2">
+            {formData.cc.map((el, index) => {
+              return (
+                <div className="col-12">
+                  <br />
+                  <div className="row">
+                    <div className="col-md-4">
+                      <input
+                        type="text"
+                        className={
+                          errors
+                            ? errors[`cc.${index}.name`]
+                              ? `form-control is-invalid`
+                              : `form-control is-valid`
+                            : "form-control"
+                        }
+                        id={`cc.${index}.name`}
+                        name={`cc.${index}.name`}
+                        onChange={handleCCChange}
+                        value={formData.cc[index].name}
+                      />
+                      {errors && (
+                        <>
+                          {errors[`cc.${index}.name`] ? (
+                            <div className="invalid-feedback">
+                              This field is required
+                            </div>
+                          ) : (
+                            <div className="valid-feedback">Looks good!</div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                    <div className="col-md-4">
+                      <input
+                        type="text"
+                        className={
+                          errors
+                            ? errors[`cc.${index}.value`]
+                              ? `form-control is-invalid`
+                              : `form-control is-valid`
+                            : "form-control"
+                        }
+                        id={`cc.${index}.value`}
+                        name={`cc.${index}.value`}
+                        onChange={handleCCChange}
+                        value={formData.cc[index].value}
+                      />
+                      {errors && (
+                        <>
+                          {errors[`cc.${index}.value`] ? (
+                            <div className="invalid-feedback">
+                              This field is required
+                            </div>
+                          ) : (
+                            <div className="valid-feedback">Looks good!</div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                    <div className="col-md-4">
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => removeCCElement(index)}
+                      >
+                        delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+         
+          </div>
+          <div className="text-center">
+              <button
+                className="btn btn-danger me-2"
+                type="button"
+                onClick={deleteCC}
+              >
+                -
+              </button>
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={AddCC}
+              >
+                +
+              </button>
+            </div>
+        </div>
+      </div>
+
+
+
+
+
+
+        </div>
         <div className="col-md-7">
           <div className="row">
             <div className="col-md-12">
-              <p>Search Product</p>
+              <p>Search Medicines</p>
               <div className="input-group mb-3">
                 <span className="input-group-text">
                   <i className="bi bi-search" />
@@ -343,18 +577,24 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
        
             <h3 className="text-center">Medicines</h3>
         
-          <div className="row bg-primary container">
-            <div className="col-md-2">
+          <div className="row bg-primary">
+            <div className="col-md-2 text-center">
               <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Name</p>
             </div>
-            <div className="col-md-2">
+            <div className="col-md-4 text-center">
+              <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Times</p>
+            </div>
+            <div className="col-md-4 text-center">
+              <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >End Time</p>
+            </div>
+            <div className="col-md-2 text-center">
 			<p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Action</p>
             </div>
           </div>
-          <div className="row">
+          <div >
             {formData.prescription.map((el, index) => {
               return (
-                <div className="col-12">
+                <>
                   <br />
                   <div className="row">
                     <div className="col-md-2">
@@ -385,6 +625,72 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
                         </>
                       )}
                     </div>
+                    <div className="col-md-4">
+                      <div className="row">
+                        <div className="col-4">  <input
+                        type="checkbox"
+                     
+                        id={`prescription.${index}.times.morning`}
+                        name={`prescription.${index}.times.morning`}
+                        onChange={handlePrescriptionCheckedChange}
+                     
+                        checked={formData.prescription[index].times.morning}
+                        
+                      /></div>
+                        <div className="col-4">   <input
+                        type="checkbox"
+                     
+                        id={`prescription.${index}.times.afternoon`}
+                        name={`prescription.${index}.times.afternoon`}
+                        onChange={handlePrescriptionCheckedChange}
+                        checked={formData.prescription[index].times.afternoon}
+                     
+                        
+                      /></div>
+                        <div className="col-4">
+                        <input
+                        type="checkbox"
+                     
+                        id={`prescription.${index}.times.night`}
+                        name={`prescription.${index}.times.night`}
+                        onChange={handlePrescriptionCheckedChange}
+                        checked={formData.prescription[index].times.night}
+                     
+                        
+                      /></div>
+                      </div>
+                    
+                    
+                    
+                    </div>
+                    <div className="col-md-4">
+                      <input
+                        type="text"
+                        className={
+                          errors
+                            ? errors[`prescription.${index}.end_time`]
+                              ? `form-control is-invalid`
+                              : `form-control is-valid`
+                            : "form-control"
+                        }
+                        id={`prescription.${index}.end_time`}
+                        name={`prescription.${index}.end_time`}
+                        onChange={handlePrescriptionChange}
+                        value={formData.prescription[index].end_time}
+                        
+                      />
+                      {errors && (
+                        <>
+                          {errors[`prescription.${index}.end_time`] ? (
+                            <div className="invalid-feedback">
+                              This field is required
+                            </div>
+                          ) : (
+                            <div className="valid-feedback">Looks good!</div>
+                          )}
+                        </>
+                      )}
+                    </div>
                     <div className="col-md-2">
                       <button
                         type="button"
@@ -395,7 +701,7 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
                       </button>
                     </div>
                   </div>
-                </div>
+                </>
               );
             })}
           </div>
@@ -408,30 +714,35 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
       </div>
 
       <br />
-      <div className="row">
-        
-      </div>
-
       <div className="row mt-5">
-        <div className="col-10 offset-1">
-          <div className="row">
+        
+        <div className="col-md-5">
+
+        </div>
+        <div className="col-md-7">
+        <div className="row ">
+        <div className="col-12">
+         
             <h3 className="text-center">Tests</h3>
-          </div>
-          <div className="row bg-primary container">
+        
+          <div className="row bg-primary">
             <div className="col-md-2">
-              <h5 className="text-light mt-2">Name</h5>
+  
+              <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Name</p>
             </div>
-            <div className="col-md-2">
-              <h5 className="text-light mt-2">Action</h5>
+            
+            <div className="col-md-2 text-center">
+            <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Action</p>
+             
             </div>
           </div>
-          <div className="row">
+          <div>
             {formData.tests.map((el, index) => {
               return (
-                <div className="col-12">
+                <>
                   <br />
                   <div className="row">
-                    <div className="col-md-2">
+                    <div className="col-md-2 text-center">
                       <input
                         type="text"
                         className={
@@ -458,7 +769,7 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
                         </>
                       )}
                     </div>
-                    <div className="col-md-2">
+                    <div className="col-md-2 text-center">
                       <button
                         type="button"
                         className="btn btn-danger"
@@ -468,7 +779,7 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
                       </button>
                     </div>
                   </div>
-                </div>
+                </>
               );
             })}
 
@@ -491,10 +802,14 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
           </div>
         </div>
       </div>
+        </div>
+      </div>
+
+ 
 
       <div className="col-md-12">
         <label htmlFor="description" className="form-label">
-          Description
+          Advice
         </label>
         <textarea
           className={
@@ -540,6 +855,65 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
           <div className="invalid-feedback">{errors.name[0]}</div>
         )}
         {errors && <div className="valid-feedback">Looks good!</div>}
+      </div>
+      <div className="row">
+        <div className="col-6"></div>
+        <div className="col-6">
+          <div className="row">
+            <div className="col-6 offset-6">
+          
+				<label htmlFor="next_appointment" className="form-label">
+					Next Appointment Date
+				</label>
+				<input
+					type="date"
+					className={
+						errors
+							? errors.next_appointment
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
+					id="next_appointment"
+					name="next_appointment"
+					onChange={handleChange}
+					value={formData.next_appointment}
+				/>
+				{errors?.next_appointment && (
+					<div className="invalid-feedback">{errors.next_appointment[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
+			
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6 offset-6">
+          
+				<label htmlFor="fees" className="form-label">
+				Fees
+				</label>
+				<input
+					type="text"
+					className={
+						errors
+							? errors.fees
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
+					id="fees"
+					name="fees"
+					onChange={handleChange}
+					value={formData.fees}
+				/>
+				{errors?.fees && (
+					<div className="invalid-feedback">{errors.fees[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
+			
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="text-center">

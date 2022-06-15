@@ -53,6 +53,7 @@ import AddReportTemplatePage from "./pages/AdminPages/LaboratoryReports/AddRepor
 import ListReportTemplatePage from "./pages/AdminPages/LaboratoryReports/ListReportTemplatePage";
 import AddPrescriptionPage from "./pages/AdminPages/Prescription/AddPrescriptionPage";
 import AddReportTemplatePage2 from "./pages/AdminPages/LaboratoryReports/AddReportTemplatePage2";
+import ListPrescriptionPage from "./pages/AdminPages/Prescription/ListPrescriptionPage";
 
 export const RouteData: RouteInterface[] = [
 	{
@@ -144,9 +145,15 @@ export const RouteData: RouteInterface[] = [
 	component: AddPrescriptionPage,
 },
 {
+	path: "/admin/prescriptions/edit/:id",
+	exact: false,
+	component: AddPrescriptionPage,
+},
+
+{
 	path: ROUTE_LIST.listPrescrption,
 	exact: true,
-	component: ListDoctorPage,
+	component: ListPrescriptionPage,
 },
 
 

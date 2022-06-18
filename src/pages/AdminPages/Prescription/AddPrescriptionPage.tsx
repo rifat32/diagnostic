@@ -29,10 +29,12 @@ const AddPrescriptionPage: React.FC = (props:any) => {
 							<div className="card">
 								<div className="card-body">
 									<h5 className="card-title">Add Prescription</h5>
-
-									<AddPrescriptionForm 	value={props?.match.params.id}
+{
+	props?.match.params.id? (<AddPrescriptionForm 	value={props?.match.params.id}
 				
-					type="update" />
+		type="update" />):(<AddPrescriptionForm  />)
+}
+									
 								</div>
 							</div>
 						</div>

@@ -122,15 +122,15 @@ export const adminSideBarData: NavInterface[] = [
 	// 	],
 	// },
 	{
-		name: "Prescribtion",
+		name: "Prescription",
 		list: [
+			// {
+			// 	name: "Add Prescription",
+			// 	link: ROUTE_LIST.createPrescrption,
+			// 	permissions: [],
+			// },
 			{
-				name: "Add Prescribtion",
-				link: ROUTE_LIST.createPrescrption,
-				permissions: [],
-			},
-			{
-				name: "List Prescribtion",
+				name: "List Prescription",
 				link: ROUTE_LIST.listPrescrption,
 				permissions: [],
 			},

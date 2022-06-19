@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import AddPatientForm from "../../Forms/PatientForms/AddPatientForm";
 import AddDoctorForm from "../../Forms/DoctorForms/AddDoctorForm";
 import AddAppoinmentForm from "../../Forms/AppointmentForms/AddAppoinmentForm";
+import { Link } from "react-router-dom";
 
 const ListAppointmentsPageComponent: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -118,6 +119,14 @@ const ListAppointmentsPageComponent: React.FC = () => {
 														href="#">
 														edit
 													</a>
+												</li>
+												<li>
+													<Link to={`/admin/prescription/create/${el.id}`}
+													
+														className="dropdown-item"
+														href="#">
+														Convert To Prescription
+													</Link>
 												</li>
 												<li>
 													<hr className="dropdown-divider" />

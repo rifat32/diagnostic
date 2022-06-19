@@ -11,7 +11,7 @@ interface FormData {
   tests: Test[];
   cc: CC[];
   note: string;
-  patient_id: string;
+ 
   next_appointment:string;
   fees:string;
 }
@@ -38,7 +38,7 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
     description: "",
     prescription: [],
     note: "",
-    patient_id: "",
+  
     tests: [{ name: "" }],
     next_appointment:'',
     cc:[
@@ -59,13 +59,15 @@ value:""
   });
 
   const [errors, setErrors] = useState<any>(null);
-  const [patients, setPatients] = useState([]);
-  const loadPatients = () => {
+  const [appointment, setAppointment] = useState<any>();
+  
+  const loadAppointment = () => {
+    // appointmentId
     apiClient()
-      .get(`${BACKENDAPI}/v1.0/patients/all`)
+      .get(`${BACKENDAPI}/v1.0/appointments/${props.value}`)
       .then((response: any) => {
-        console.log(response);
-        setPatients(response.data.data);
+        console.log("appointment",response);
+        setAppointment(response.data.data);
       })
       .catch((error) => {
         console.log(error.response);
@@ -73,7 +75,7 @@ value:""
   };
 
   useEffect(() => {
-    loadPatients();
+    loadAppointment();
   }, []);
 
   const [currentPatient, setCurrentPatient] = useState<any>(null);
@@ -86,20 +88,20 @@ value:""
   };
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (e.target.name == "patient_id") {
-      patients.map((el: any) => {
-        if (parseInt(el.id) === parseInt(e.target.value)) {
-          setCurrentPatient(el);
-        }
-      });
-    }
+    // if (e.target.name == "patient_id") {
+    //   patients.map((el: any) => {
+    //     if (parseInt(el.id) === parseInt(e.target.value)) {
+    //       setCurrentPatient(el);
+    //     }
+    //   });
+    // }
   };
   const resetFunction = () => {
     setFormData({
       description: "",
       prescription: [],
       note: "",
-      patient_id: "",
+     
       tests: [{ name: "" }],
       cc:[ {
         name:"BP",
@@ -185,7 +187,7 @@ if(!foundProduct){
   };
   const createData = () => {
     apiClient()
-      .post(`${BACKENDAPI}/v1.0/prescriptions`, { ...formData })
+      .post(`${BACKENDAPI}/v1.0/prescriptions`, { ...formData, patient_id:appointment.patient.id,appointment_id:appointment.id })
       .then((response) => {
         console.log(response);
         toast.success("Data saved");
@@ -215,7 +217,7 @@ setFormData({
   note,
   next_appointment,
   fees,
-  patient_id
+
 })
       })
     }
@@ -343,10 +345,17 @@ setFormData({
     <form className="row g-3" onSubmit={handleSubmit}>
       <div className="row">
         <div className="col-md-3">
-          <label htmlFor="bill" className="form-label">
+          Patient
+          {/*  <label htmlFor="bill" className="form-label">
             Patient
-          </label>
-          <select
+          </label> */}
+          <input   type="hidden"
+                        className="form-control"
+                        id={`patient_id`}
+                        name={`patient_id`}
+                     
+                        value={appointment?.patient?.name}/>
+        {/*  <select
             className={
               errors
                 ? errors.patient_id
@@ -369,7 +378,7 @@ setFormData({
                 {el.name}
               </option>
             ))}
-          </select>
+          </select> */}
 
           {errors?.patient_id && (
             <div className="invalid-feedback">{errors.patient_id[0]}</div>
@@ -377,7 +386,7 @@ setFormData({
           {errors && <div className="valid-feedback">Looks good!</div>}
         </div>
 		<div className="col-md-9">
-		{currentPatient ? (
+	
           <div className="row ">
             <div className="col-12 ">
               <table className="table table-responsive table-striped">
@@ -391,15 +400,15 @@ setFormData({
                 </thead>
                 <tbody>
                   <tr>
-                    <td> {currentPatient.name}</td>
-                    <td>{currentPatient.sex && currentPatient.sex}</td>
-                    <td>{currentPatient.age && currentPatient.age}</td>
+                    <td> {appointment?.patient?.name}</td>
+                    <td>{appointment?.patient?.sex}</td>
+                    <td>{appointment?.patient?.age}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-        ) : null}
+       
 		</div>
         {/* <br />
         {currentPatient ? (
@@ -431,24 +440,24 @@ setFormData({
       </div>
 
       <div className="row">
-        <div className="col-md-5">
+        <div className="col-md-4">
           {/* cc */}
           <div className="row ">
         <div className="col-12">
          
-            <h3 className="text-center">c/c</h3>
+            <h3 className="ms-2">c/c</h3>
         
-          <div className="row bg-primary container">
-            <div className="col-md-4">
+          <div className="row bg-primary">
+            <div className="col-md-5">
   
               <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Name</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-5">
   
   <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Value</p>
 </div>
-            <div className="col-md-4">
-            <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Action</p>
+            <div className="col-md-2">
+           
              
             </div>
           </div>
@@ -458,7 +467,7 @@ setFormData({
                 <div className="col-12">
                   <br />
                   <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-md-5">
                       <input
                         type="text"
                         className={
@@ -485,7 +494,7 @@ setFormData({
                         </>
                       )}
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-5">
                       <input
                         type="text"
                         className={
@@ -512,13 +521,13 @@ setFormData({
                         </>
                       )}
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-2">
                       <button
                         type="button"
                         className="btn btn-danger"
                         onClick={() => removeCCElement(index)}
                       >
-                        delete
+                        x
                       </button>
                     </div>
                   </div>
@@ -553,11 +562,13 @@ setFormData({
 
 
         </div>
-        <div className="col-md-7">
+        <div className="col-md-7 offset-1">
           <div className="row">
             <div className="col-md-12">
-              <p>Search Medicines</p>
-              <div className="input-group mb-3">
+            <h3 className="text-center">Medicines</h3>
+            </div>
+			<div className="col-12">
+      <div className="input-group mb-3">
                 <span className="input-group-text">
                   <i className="bi bi-search" />
                 </span>
@@ -572,10 +583,7 @@ setFormData({
                   placeholder="search product by name"
                 />
               </div>
-            </div>
-			<div className="col-12">
-       
-            <h3 className="text-center">Medicines</h3>
+         
         
           <div className="row bg-primary">
             <div className="col-md-2 text-center">
@@ -726,13 +734,13 @@ setFormData({
             <h3 className="text-center">Tests</h3>
         
           <div className="row bg-primary">
-            <div className="col-md-2">
+            <div className="col-md-10">
   
               <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Name</p>
             </div>
             
             <div className="col-md-2 text-center">
-            <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Action</p>
+            
              
             </div>
           </div>
@@ -742,7 +750,7 @@ setFormData({
                 <>
                   <br />
                   <div className="row">
-                    <div className="col-md-2 text-center">
+                    <div className="col-md-10 text-center">
                       <input
                         type="text"
                         className={
@@ -775,7 +783,7 @@ setFormData({
                         className="btn btn-danger"
                         onClick={() => removeTestsElement(index)}
                       >
-                        delete
+                        X
                       </button>
                     </div>
                   </div>
@@ -783,7 +791,7 @@ setFormData({
               );
             })}
 
-            <div className="text-center">
+            <div className="text-center mt-2">
               <button
                 className="btn btn-danger me-2"
                 type="button"
@@ -823,7 +831,7 @@ setFormData({
           name="description"
           onChange={handleTextareaChange}
           value={formData.description}
-          rows={10}
+          rows={5}
         ></textarea>
 
         {errors?.name && (
@@ -848,7 +856,7 @@ setFormData({
           name="note"
           onChange={handleTextareaChange}
           value={formData.note}
-          rows={3}
+          rows={2}
         ></textarea>
 
         {errors?.name && (
@@ -856,11 +864,36 @@ setFormData({
         )}
         {errors && <div className="valid-feedback">Looks good!</div>}
       </div>
-      <div className="row">
+      <div className="row mt-2">
         <div className="col-6"></div>
         <div className="col-6">
           <div className="row">
-            <div className="col-6 offset-6">
+          <div className="col-6 ">
+          
+          <label htmlFor="fees" className="form-label">
+          Fees
+          </label>
+          <input
+            type="text"
+            className={
+              errors
+                ? errors.fees
+                  ? `form-control is-invalid`
+                  : `form-control is-valid`
+                : "form-control"
+            }
+            id="fees"
+            name="fees"
+            onChange={handleChange}
+            value={formData.fees}
+          />
+          {errors?.fees && (
+            <div className="invalid-feedback">{errors.fees[0]}</div>
+          )}
+          {errors && <div className="valid-feedback">Looks good!</div>}
+        
+              </div>
+            <div className="col-6 ">
           
 				<label htmlFor="next_appointment" className="form-label">
 					Next Appointment Date
@@ -886,33 +919,7 @@ setFormData({
 			
             </div>
           </div>
-          <div className="row">
-            <div className="col-6 offset-6">
-          
-				<label htmlFor="fees" className="form-label">
-				Fees
-				</label>
-				<input
-					type="text"
-					className={
-						errors
-							? errors.fees
-								? `form-control is-invalid`
-								: `form-control is-valid`
-							: "form-control"
-					}
-					id="fees"
-					name="fees"
-					onChange={handleChange}
-					value={formData.fees}
-				/>
-				{errors?.fees && (
-					<div className="invalid-feedback">{errors.fees[0]}</div>
-				)}
-				{errors && <div className="valid-feedback">Looks good!</div>}
-			
-            </div>
-          </div>
+         
         </div>
       </div>
 

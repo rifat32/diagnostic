@@ -6,7 +6,7 @@ import AddDoctorForm from "../../../components/Forms/DoctorForms/AddDoctorForm";
 import AddPrescriptionForm from "../../../components/Forms/PrescriptionForms/AddPrescriptionForm";
 
 const AddPrescriptionPage: React.FC = (props:any) => {
-	console.log(props?.match.params.id)
+	console.log("aa",props?.match.params)
 	return (
 		<AdminPageComponent>
 			<main id="main" className="main">
@@ -32,7 +32,7 @@ const AddPrescriptionPage: React.FC = (props:any) => {
 {
 	props?.match.params.id? (<AddPrescriptionForm 	value={props?.match.params.id}
 				
-		type="update" />):(<AddPrescriptionForm  />)
+		type="update" />):(<AddPrescriptionForm value={props?.match.params.appointmentId}   />)
 }
 									
 								</div>

@@ -31,12 +31,12 @@ const ListPrescriptionPage: React.FC = () => {
 							<div className="card">
 								<div className="card-body">
 									<div className="d-flex justify-content-between align-items-end">
-										<h5 className="card-title">All Doctors</h5>
-										<Link
+										<h5 className="card-title">All Prescriptions</h5>
+										{/* <Link
 											to={ROUTE_LIST.createPrescrption}
 											className="btn btn-primary">
 											Add Data
-										</Link>
+										</Link> */}
 									</div>
 									<ListPrescriptionPageComponent />
 								</div>

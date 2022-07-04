@@ -5,8 +5,9 @@ import CustomModal from "../../Modal/Modal";
 import AddProductForm from "../../Forms/ProductForms/AddProductForm";
 import { toast } from "react-toastify";
 import AddPatientForm from "../../Forms/PatientForms/AddPatientForm";
+import { withRouter } from "react-router-dom";
 
-const ListPatientsPageComponent: React.FC = () => {
+const ListPatientsPageComponent: React.FC = (props:any) => {
 	const [data, setData] = useState<any>([]);
 	const [modalIsOpen, setIsOpen] = React.useState(false);
 	const showModal = (show: boolean) => {
@@ -75,7 +76,7 @@ const ListPatientsPageComponent: React.FC = () => {
 						<th scope="col">Phone</th>
 						<th scope="col">Address</th>
 						<th scope="col">Sex</th>
-						<th scope="col">Age</th>
+						<th scope="col">Birth Date</th>
 						<th scope="col">Action</th>
 					</tr>
 				</thead>
@@ -88,8 +89,9 @@ const ListPatientsPageComponent: React.FC = () => {
 									<td>{el.name && el.name}</td>
 									<td>{el.phone && el.phone}</td>
 									<td>{el.address && el.address}</td>
-									<td>{el.age && el.age}</td>
 									<td>{el.sex && el.sex}</td>
+									<td>{el.birth_date && el.birth_date}</td>
+									
 						
 									<td>
 										<div className="btn-group">
@@ -110,6 +112,16 @@ const ListPatientsPageComponent: React.FC = () => {
 														className="dropdown-item"
 														href="#">
 														edit
+													</a>
+												</li>
+												<li>
+													<a
+														onClick={() => {
+															props.history.push(`/admin/patient/history/${el.id}`);
+														}}
+														className="dropdown-item"
+														href="#">
+														view history
 													</a>
 												</li>
 												<li>
@@ -171,4 +183,4 @@ const ListPatientsPageComponent: React.FC = () => {
 	);
 };
 
-export default ListPatientsPageComponent;
+export default withRouter(ListPatientsPageComponent);

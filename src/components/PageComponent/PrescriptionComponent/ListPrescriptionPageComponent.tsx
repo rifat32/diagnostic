@@ -8,6 +8,8 @@ import AddPatientForm from "../../Forms/PatientForms/AddPatientForm";
 import AddDoctorForm from "../../Forms/DoctorForms/AddDoctorForm";
 import AddPrescriptionForm from "../../Forms/PrescriptionForms/AddPrescriptionForm";
 import { Link } from "react-router-dom";
+import AddPaymentForm from "../../Forms/ExpenseForms/AddPaymentForm";
+import AddPrescriptionPaymentForm from "../../Forms/PrescriptionForms/AddPaymentForm";
 
 const ListPrescriptionPageComponent: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -23,13 +25,20 @@ const ListPrescriptionPageComponent: React.FC = () => {
 	const [prevPageLink, setPrevPageLink] = useState("");
 
 	const updateDataStates = (updatedData: any) => {
-		const tempDatas = data.map((el: any) => {
-			if (parseInt(el.id) === parseInt(updatedData.id)) {
-				return updatedData;
-			}
-			return el;
-		});
-		setData(tempDatas);
+		setLoading(true)
+		apiClient()
+			.get(link)
+			.then((response: any) => {
+				setLoading(false)
+				console.log(response.data.data);
+				setData([ ...response.data.data.data]);
+				setNextPageLink(response.data.data.next_page_url);
+				setPrevPageLink(response.data.data.prev_page_url);
+			})
+			.catch((error) => {
+				setLoading(false)
+				console.log(error.response);
+			});
 	};
 
 	useEffect(() => {
@@ -70,7 +79,13 @@ const ListPrescriptionPageComponent: React.FC = () => {
 				});
 		}
 	};
-	
+	const calculatePaid = (payments:any[]) => {
+		let paid = 0;
+		payments.map((el:any) => {
+			paid += parseFloat(el.amount)
+		})
+		return  paid;
+	}
 	return (
 		<>
 			<table className="table">
@@ -81,7 +96,7 @@ const ListPrescriptionPageComponent: React.FC = () => {
 						<th scope="col">Patient</th>
 						<th scope="col">Next Appointment</th>
 						<th scope="col">Fees</th>
-				
+						<th scope="col">Total Paid</th>
 						<th scope="col">Action</th>
 					</tr>
 				</thead>
@@ -94,7 +109,7 @@ const ListPrescriptionPageComponent: React.FC = () => {
 									<td>{el.patient.name}</td>
 									<td>{new Date(el.next_appointment).toLocaleDateString()}</td>
 									<td>{el.fees}</td>
-								
+									<td>{calculatePaid(el.payments)}</td>
 						
 									<td>
 										<div className="btn-group">
@@ -113,6 +128,17 @@ const ListPrescriptionPageComponent: React.FC = () => {
 														href="#">
 														edit
 													</Link>
+												</li>
+												<li>
+													<a
+													  
+														className="dropdown-item"
+														href="#" onClick={() => {
+															setCurrentData(el);
+															showModal(true);
+														}}>
+														Add Payment
+													</a>
 												</li>
 												<li>
 													<hr className="dropdown-divider" />
@@ -163,8 +189,8 @@ const ListPrescriptionPageComponent: React.FC = () => {
 			<CustomModal
 				isOpen={modalIsOpen}
 				showModal={showModal}
-				type="Update Prescription">
-				<AddPrescriptionForm
+				type="Add Payment">
+				<AddPrescriptionPaymentForm
 					value={currentData}
 					updateDataStates={updateDataStates}
 					showModal={showModal}

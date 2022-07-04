@@ -4,6 +4,11 @@ import { apiClient } from "../../../utils/apiClient";
 import { toast } from "react-toastify";
 import { UpdateFormInterface } from "../../../interfaces/UpdateFormInterfaced";
 import { ErrorMessage } from "../../../utils/ErrorMessage";
+import CustomModal from "../../Modal/Modal";
+import AddMedicalHistoryForm from "./AddMedicalHistoryForm";
+import { ROUTE_LIST } from "../../../RoutConstants";
+import { printInvoice } from "../../../utils/PrintInvoice";
+import CustomModal2 from "../../Modal/Modal2";
 
 interface FormData {
   description: string;
@@ -11,9 +16,10 @@ interface FormData {
   tests: Test[];
   cc: CC[];
   note: string;
- 
+  patient_history: string;
   next_appointment:string;
   fees:string;
+  medical_history:string;
 }
 interface Prescription {
   id: string;
@@ -38,6 +44,7 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
     description: "",
     prescription: [],
     note: "",
+    patient_history:"",
   
     tests: [{ name: "" }],
     next_appointment:'',
@@ -55,7 +62,8 @@ value:""
             value:""
      },
   ],
-  fees:''
+  fees:'',
+  medical_history:''
   });
 
   const [errors, setErrors] = useState<any>(null);
@@ -101,7 +109,7 @@ value:""
       description: "",
       prescription: [],
       note: "",
-     
+      patient_history:"",
       tests: [{ name: "" }],
       cc:[ {
         name:"BP",
@@ -116,7 +124,8 @@ value:""
                     value:""
              },],
             next_appointment:'',
-            fees:''
+            fees:'',
+            medical_history:""
 
     });
   };
@@ -188,10 +197,13 @@ if(!foundProduct){
   const createData = () => {
     apiClient()
       .post(`${BACKENDAPI}/v1.0/prescriptions`, { ...formData, patient_id:appointment.patient.id,appointment_id:appointment.id })
-      .then((response) => {
+      .then((response:any) => {
         console.log(response);
         toast.success("Data saved");
-        resetFunction();
+        printInvoice(response.data.invoice);
+        // resetFunction();
+
+        // window.location.href = `${document.location.origin}${ROUTE_LIST.listAppointment}`;
       })
       .catch((error) => {
         console.log(error.response);
@@ -341,6 +353,31 @@ setFormData({
     }
     setFormData({ ...formData, cc: tempValues });
   };
+
+  function getAge(dateString:string) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+
+
+const [modalIsOpen, setIsOpen] = React.useState(false);
+const showModal = (show: boolean) => {
+  setIsOpen(show);
+};
+
+
+const updateDataStates = (updatedData: any) => {
+  setFormData({
+    ...formData,
+    medical_history:JSON.stringify(updatedData)
+  })
+};
   return (
     <form className="row g-3" onSubmit={handleSubmit}>
       <div className="row">
@@ -402,7 +439,7 @@ setFormData({
                   <tr>
                     <td> {appointment?.patient?.name}</td>
                     <td>{appointment?.patient?.sex}</td>
-                    <td>{appointment?.patient?.age}</td>
+                    <td>{getAge(appointment?.patient?.birth_date)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -445,7 +482,7 @@ setFormData({
           <div className="row ">
         <div className="col-12">
          
-            <h3 className="ms-2">c/c</h3>
+            <h3 className="ms-2">O/E</h3>
         
           <div className="row bg-primary">
             <div className="col-md-5">
@@ -731,7 +768,7 @@ setFormData({
         <div className="row ">
         <div className="col-12">
          
-            <h3 className="text-center">Tests</h3>
+            <h3 className="text-center">Investigation</h3>
         
           <div className="row bg-primary">
             <div className="col-md-10">
@@ -815,34 +852,11 @@ setFormData({
 
  
 
-      <div className="col-md-12">
-        <label htmlFor="description" className="form-label">
-          Advice
-        </label>
-        <textarea
-          className={
-            errors
-              ? errors.description
-                ? `form-control is-invalid`
-                : `form-control is-valid`
-              : "form-control"
-          }
-          id="description"
-          name="description"
-          onChange={handleTextareaChange}
-          value={formData.description}
-          rows={5}
-        ></textarea>
-
-        {errors?.name && (
-          <div className="invalid-feedback">{errors.name[0]}</div>
-        )}
-        {errors && <div className="valid-feedback">Looks good!</div>}
-      </div>
+   
 
       <div className="col-md-12">
         <label htmlFor="note" className="form-label">
-          Note
+          History
         </label>
         <textarea
           className={
@@ -856,7 +870,7 @@ setFormData({
           name="note"
           onChange={handleTextareaChange}
           value={formData.note}
-          rows={2}
+          rows={4}
         ></textarea>
 
         {errors?.name && (
@@ -864,6 +878,45 @@ setFormData({
         )}
         {errors && <div className="valid-feedback">Looks good!</div>}
       </div>
+      <div className="col-md-12">
+        <label htmlFor="patient_history" className="form-label">
+        Patient  History
+        </label>
+        <textarea
+          className={
+            errors
+              ? errors.patient_history
+                ? `form-control is-invalid`
+                : `form-control is-valid`
+              : "form-control"
+          }
+          id="patient_history"
+          name="patient_history"
+          onChange={handleTextareaChange}
+          value={formData.patient_history}
+          rows={4}
+        ></textarea>
+
+        {errors?.name && (
+          <div className="invalid-feedback">{errors.name[0]}</div>
+        )}
+        {errors && <div className="valid-feedback">Looks good!</div>}
+      </div>
+
+      <div className="row">
+        <div className="col-6">
+          <button type="button" 
+          
+          onClick={() => {
+           
+            showModal(true);
+          }}
+          
+         className="btn btn-primary" 
+          >PMW</button>
+        </div>
+      </div>
+      
       <div className="row mt-2">
         <div className="col-6"></div>
         <div className="col-6">
@@ -935,6 +988,17 @@ setFormData({
           Reset
         </button>
       </div>
+      <CustomModal2
+				isOpen={modalIsOpen}
+				showModal={showModal}
+				type="Madical History">
+				<AddMedicalHistoryForm
+					value={""}
+					updateDataStates={updateDataStates}
+					showModal={showModal}
+					type="update"
+				/>
+			</CustomModal2>
     </form>
   );
 };

@@ -47,13 +47,13 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 
 	const loadPatients = () => {
 		apiClient()
-			.get(`${BACKENDAPI}/v1.0/patients/all`)
+			.get(`${BACKENDAPI}/v1.0/patients/all/list`)
 			.then((response: any) => {
 				console.log(response);
 				setPatients(response.data.data);
 			})
 			.catch((error) => {
-				console.log(error.response);
+				console.log(error);
 			});
 	};
 	

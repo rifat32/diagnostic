@@ -11,8 +11,8 @@ interface FormData {
 	address: string;
 	phone: string;
 	sex: string;
-	// birth_date:string,
-	age:string,
+	 birth_date:string,
+
 	blood_group: string;
 
 
@@ -26,7 +26,7 @@ const AddPatientForm: React.FC<UpdateFormInterface> = (props) => {
 	address: '',
 	phone: '',
 	sex: '',
-	age:'',
+	birth_date:'',
 	blood_group: '',
 	
 	});
@@ -51,7 +51,7 @@ const AddPatientForm: React.FC<UpdateFormInterface> = (props) => {
 			address: '',
 			phone: '',
 			sex: '',
-			age:'',
+			birth_date:"",
 			blood_group: '',
 		});
 	};
@@ -250,26 +250,26 @@ const AddPatientForm: React.FC<UpdateFormInterface> = (props) => {
 			
 
 			<div className="col-md-4">
-				<label htmlFor="age" className="form-label">
-					Age
+				<label htmlFor="birth_date" className="form-label">
+					Birth Date
 				</label>
 				<input
-					type="text"
+					type="date"
 					className={
 						errors
-							? errors.age
+							? errors.birth_date
 								? `form-control is-invalid`
 								: `form-control is-valid`
 							: "form-control"
 					}
-					id="age"
-					name="age"
+					id="birth_date"
+					name="birth_date"
 					onChange={handleChange}
-					value={formData.age}
+					value={formData.birth_date}
 				/>
 
-				{errors?.age && (
-					<div className="invalid-feedback">{errors.age[0]}</div>
+				{errors?.birth_date && (
+					<div className="invalid-feedback">{errors.birth_date[0]}</div>
 				)}
 				{errors && <div className="valid-feedback">Looks good!</div>}
 			</div>

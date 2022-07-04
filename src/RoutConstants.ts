@@ -9,6 +9,7 @@ export enum ROUTE_LIST {
     createReportTemplate="/admin/report-templates/create",
     listReportTemplate="/admin/report-templates",
     listPrescrption="/admin/prescription",
-    createPrescrption="/admin/prescription/create/:appointmentId"
+    createPrescrption="/admin/prescription/create/:appointmentId",
+    viewPatientHistory="/admin/patient/history/:patientId"
   }
 

@@ -16,7 +16,7 @@ interface FormData {
 	taxType: string;
 	subCategory: string;
 	price: string;
-	wing_id: string;
+	
 }
 const AddProductForm: React.FC<UpdateFormInterface> = (props) => {
 	const [formData, setFormData] = useState<FormData>({
@@ -30,8 +30,7 @@ const AddProductForm: React.FC<UpdateFormInterface> = (props) => {
 		type: "",
 		tax: "",
 		taxType: "",
-		price: "",
-		wing_id: "",
+		price: ""
 	});
 	const [wings, setWings] = useState([]);
 	const [errors, setErrors] = useState<any>(null);
@@ -69,8 +68,7 @@ const AddProductForm: React.FC<UpdateFormInterface> = (props) => {
 			type: "",
 			tax: "",
 			taxType: "",
-			price: "",
-			wing_id: "",
+			price: ""
 		});
 	};
 	const handleSubmit = (e: React.FormEvent) => {
@@ -141,37 +139,7 @@ const AddProductForm: React.FC<UpdateFormInterface> = (props) => {
 
 	return (
 		<form className="row g-3" onSubmit={handleSubmit}>
-			<div className="col-md-12">
-				<label htmlFor="bill" className="form-label">
-					Wing
-				</label>
-				<select
-					className={
-						errors
-							? errors.wing_id
-								? `form-control is-invalid`
-								: `form-control is-valid`
-							: "form-control"
-					}
-					id="wing_id"
-					name="wing_id"
-					onChange={handleSelect}
-					value={formData.wing_id}>
-					<option value="">Please Select</option>
-					{wings.map((el: any, index) => (
-						<option
-							key={index}
-							value={el.id}
-							style={{ textTransform: "uppercase" }}>
-							{el.name}
-						</option>
-					))}
-				</select>
-				{errors?.wing_id && (
-					<div className="invalid-feedback">{errors.wing_id[0]}</div>
-				)}
-				{errors && <div className="valid-feedback">Looks good!</div>}
-			</div>
+		
 			<div className="col-md-4">
 				<label htmlFor="name" className="form-label">
 					Product Name

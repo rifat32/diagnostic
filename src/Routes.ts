@@ -55,6 +55,9 @@ import AddPrescriptionPage from "./pages/AdminPages/Prescription/AddPrescription
 import AddReportTemplatePage2 from "./pages/AdminPages/LaboratoryReports/AddReportTemplatePage2";
 import ListPrescriptionPage from "./pages/AdminPages/Prescription/ListPrescriptionPage";
 import ViewPatientHistoryPage from "./pages/AdminPages/Patient/ViewPatientHistoryPage";
+import ReportAppointmentPage from "./pages/AdminPages/Appointment/ReportAppointmentPage";
+import ReportPrescriptionPage from "./pages/AdminPages/Prescription/ReportPrescriptionPage";
+import ReportPatientsPage from "./pages/AdminPages/Patient/ReportPatientsPage";
 
 export const RouteData: RouteInterface[] = [
 	{
@@ -187,6 +190,22 @@ export const RouteData: RouteInterface[] = [
 		exact: true,
 		component: ListAppointmentPage,
 	},
+	{
+		path: "/admin/report/appointment",
+		exact: true,
+		component: ReportAppointmentPage,
+	},
+	{
+		path: "/admin/report/prescription",
+		exact: true,
+		component: ReportPrescriptionPage,
+	},
+	{
+		path: "/admin/report/patient",
+		exact: true,
+		component: ReportPatientsPage,
+	},
+	
 	// // Laboratory Tests
 	// {
 	// 	path: ROUTE_LIST.createReportTemplate,
@@ -253,22 +272,22 @@ export const RouteData: RouteInterface[] = [
 	},
 	// Parchases
 	{
-		path: "/admin/parchases/create",
+		path: "/admin/purchases/create",
 		exact: false,
 		component: AddParchasePage,
 	},
 	{
-		path: "/admin/parchases",
+		path: "/admin/purchases",
 		exact: true,
 		component: ListParchasePage,
 	},
 	{
-		path: "/admin/parchases/return",
+		path: "/admin/purchases/return",
 		exact: false,
 		component: ListParchaseReturnPage,
 	},
 	{
-		path: "/admin/parchases/report",
+		path: "/admin/purchases/report",
 		exact: false,
 		component: PurchaseReportPage,
 	},

@@ -11,6 +11,7 @@ import { printInvoice } from "../../../utils/PrintInvoice";
 import CustomModal2 from "../../Modal/Modal2";
 
 interface FormData {
+  id:string;
   description: string;
   prescription: Prescription[];
   tests: Test[];
@@ -41,6 +42,7 @@ interface CC {
 }
 const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
   const [formData, setFormData] = useState<FormData>({
+    id:"",
     description: "",
     prescription: [],
     note: "",
@@ -106,6 +108,7 @@ value:""
   };
   const resetFunction = () => {
     setFormData({
+      id:"",
       description: "",
       prescription: [],
       note: "",
@@ -221,14 +224,40 @@ if(!foundProduct){
       // setFormData(props.value);
       apiClient().get(`${BACKENDAPI}/v1.0/prescriptions/${props.value}`)
       .then((response:any) => {
-console.log(response)
-const{description,note,next_appointment,fees,patient_id} = response.data.data
+const{
+  description,
+id,
+  fees,
+  patient,
+  medicines,
+  tests,
+  cc,
+  payments,
+  note,
+  patient_history,
+  next_appointment,
+  medical_history
+} = response.data.data
+
+
+
 setFormData({
   ...formData,
+  id,
   description,
   note,
   next_appointment,
   fees,
+
+  prescription: medicines,
+  tests,
+  cc,
+  patient_history,
+  medical_history
+
+
+
+
 
 })
       })
@@ -236,11 +265,15 @@ setFormData({
   }, []);
   const updateData = () => {
     apiClient()
-      .put(`${BACKENDAPI}/v1.0/doctors`, { ...formData })
+      .put(`${BACKENDAPI}/v1.0/prescriptions`, {
+        
+        ...formData, patient_id:appointment.patient.id,appointment_id:appointment.id 
+      
+      }
+      )
       .then((response: any) => {
         console.log(response);
         toast.success("Data Updated");
-
         props.updateDataStates(response.data.data);
         props.showModal(false);
       })
@@ -254,6 +287,7 @@ setFormData({
           toast.error("invalid input");
           setErrors(error.response.data.errors);
         }
+
       });
   };
   // end edit Data section
@@ -383,39 +417,13 @@ const updateDataStates = (updatedData: any) => {
       <div className="row">
         <div className="col-md-3">
           Patient
-          {/*  <label htmlFor="bill" className="form-label">
-            Patient
-          </label> */}
+      
           <input   type="hidden"
                         className="form-control"
                         id={`patient_id`}
                         name={`patient_id`}
-                     
                         value={appointment?.patient?.name}/>
-        {/*  <select
-            className={
-              errors
-                ? errors.patient_id
-                  ? `form-control is-invalid`
-                  : `form-control is-valid`
-                : "form-control"
-            }
-            id="patient_id"
-            name="patient_id"
-            onChange={handleSelect}
-            value={formData.patient_id}
-          >
-            <option value="">Please Select</option>
-            {patients.map((el: any, index) => (
-              <option
-                key={index}
-                value={el.id}
-                style={{ textTransform: "uppercase" }}
-              >
-                {el.name}
-              </option>
-            ))}
-          </select> */}
+       
 
           {errors?.patient_id && (
             <div className="invalid-feedback">{errors.patient_id[0]}</div>

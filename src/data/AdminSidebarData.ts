@@ -159,85 +159,85 @@ export const adminSideBarData: NavInterface[] = [
 			},
 		],
 	},
-	{
-		name: "Requisition",
-		list: [
-			{
-				name: "Create Requisition",
-				link: "/admin/requisitions/create",
-				permissions: ["create requisition"],
-			},
-			{
-				name: "Requisitions",
-				link: "/admin/requisitions",
-				permissions: [
-					"approve requisition",
-					"cancel requisition",
-					"create requisition",
-				],
-			},
-			{
-				name: "Requisitions Return",
-				link: "/admin/requisitions/return",
-				permissions: ["approve requisition", "cancel requisition"],
-			},
+	// {
+	// 	name: "Requisition",
+	// 	list: [
+	// 		{
+	// 			name: "Create Requisition",
+	// 			link: "/admin/requisitions/create",
+	// 			permissions: ["create requisition"],
+	// 		},
+	// 		{
+	// 			name: "Requisitions",
+	// 			link: "/admin/requisitions",
+	// 			permissions: [
+	// 				"approve requisition",
+	// 				"cancel requisition",
+	// 				"create requisition",
+	// 			],
+	// 		},
+	// 		{
+	// 			name: "Requisitions Return",
+	// 			link: "/admin/requisitions/return",
+	// 			permissions: ["approve requisition", "cancel requisition"],
+	// 		},
 
-			{
-				name: "Requisitions Report",
-				link: "/admin/requisitions/report",
-				permissions: ["approve requisition", "cancel requisition"],
-			},
-		],
-	},
-	{
-		name: "Parchase",
-		list: [
-			{
-				name: "Parchase Create",
-				link: "/admin/parchases/create",
-				permissions: ["create purchase"],
-			},
-			{
-				name: "Purchases",
-				link: "/admin/parchases",
-				permissions: ["purchase return", "create purchase"],
-			},
-			{
-				name: "Purchases Return",
-				link: "/admin/parchases/return",
-				permissions: ["purchase return", "cancel requisition"],
-			},
+	// 		{
+	// 			name: "Requisitions Report",
+	// 			link: "/admin/requisitions/report",
+	// 			permissions: ["approve requisition", "cancel requisition"],
+	// 		},
+	// 	],
+	// },
+	// {
+	// 	name: "Parchase",
+	// 	list: [
+	// 		{
+	// 			name: "Parchase Create",
+	// 			link: "/admin/parchases/create",
+	// 			permissions: ["create purchase"],
+	// 		},
+	// 		{
+	// 			name: "Purchases",
+	// 			link: "/admin/parchases",
+	// 			permissions: ["purchase return", "create purchase"],
+	// 		},
+	// 		{
+	// 			name: "Purchases Return",
+	// 			link: "/admin/parchases/return",
+	// 			permissions: ["purchase return", "cancel requisition"],
+	// 		},
 
-			{
-				name: "Purchases Report",
-				link: "/admin/parchases/report",
-				permissions: ["purchase return"],
-			},
-		],
-	},
+	// 		{
+	// 			name: "Purchases Report",
+	// 			link: "/admin/parchases/report",
+	// 			permissions: ["purchase return"],
+	// 		},
+	// 	],
+	// },
 	{
 		name: "Income",
 		list: [
-			{
-				name: "Revenue Create",
-				link: "/admin/revenues/create",
-				permissions: ["add revenue"],
-			},
-			{
-				name: "List Revenue",
-				link: "/admin/revenues",
-				permissions: ["approve revenue", "add revenue"],
-			},
-			{
-				name: "Credit Note Create",
-				link: "/admin/credits/create",
-				permissions: ["add credit voucher"],
-			},
-			{
-				name: "List Credit Note",
-				link: "/admin/credits",
-				permissions: ["voucher approval", "add credit voucher"],
-			},
+			// {
+			// 	name: "Revenue Create",
+			// 	link: "/admin/revenues/create",
+			// 	permissions: ["add revenue"],
+			// },
+			// {
+			// 	name: "List Revenue",
+			// 	link: "/admin/revenues",
+			// 	permissions: ["approve revenue", "add revenue"],
+			// },
+			// {
+			// 	name: "Credit Note Create",
+			// 	link: "/admin/credits/create",
+			// 	permissions: ["add credit voucher"],
+			// },
+			// {
+			// 	name: "List Credit Note",
+			// 	link: "/admin/credits",
+			// 	permissions: ["voucher approval", "add credit voucher"],
+			// },
 			{
 				name: "Income Report",
 				link: "/admin/income/report",
@@ -259,31 +259,31 @@ export const adminSideBarData: NavInterface[] = [
 				permissions: [],
 			},
 
-			{
-				name: "Payment Create",
-				link: "/admin/payments/create",
-				permissions: ["add payment"],
-			},
-			{
-				name: "Payment",
-				link: "/admin/payments",
-				permissions: ["approve payment", "add payment"],
-			},
-			{
-				name: "Debit Note Create",
-				link: "/admin/debitNotes/create",
-				permissions: ["add debit voucher"],
-			},
-			{
-				name: "Debit Note",
-				link: "/admin/debitNotes",
-				permissions: ["approve voucher", "add debit voucher"],
-			},
-			{
-				name: "Expense Report",
-				link: "/admin/expense/report",
-				permissions: [],
-			},
+			// {
+			// 	name: "Payment Create",
+			// 	link: "/admin/payments/create",
+			// 	permissions: ["add payment"],
+			// },
+			// {
+			// 	name: "Payment",
+			// 	link: "/admin/payments",
+			// 	permissions: ["approve payment", "add payment"],
+			// },
+			// {
+			// 	name: "Debit Note Create",
+			// 	link: "/admin/debitNotes/create",
+			// 	permissions: ["add debit voucher"],
+			// },
+			// {
+			// 	name: "Debit Note",
+			// 	link: "/admin/debitNotes",
+			// 	permissions: ["approve voucher", "add debit voucher"],
+			// },
+			// {
+			// 	name: "Expense Report",
+			// 	link: "/admin/expense/report",
+			// 	permissions: [],
+			// },
 		],
 	},
 	// {
@@ -321,4 +321,25 @@ export const adminSideBarData: NavInterface[] = [
 	// 		},
 	// 	],
 	// },
+	{
+		name: "Report",
+		list: [
+			{
+				name: "Appointment Report",
+				link: "/admin/report/appointment",
+				permissions: [],
+			},
+			{
+				name: "Prescription Report",
+				link: "/admin/report/prescription",
+				permissions: [],
+			},
+			{
+				name: "Patient Report",
+				link: "/admin/report/patient",
+				permissions: [],
+			},
+
+		],
+	},
 ];

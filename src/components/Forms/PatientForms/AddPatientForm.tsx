@@ -67,8 +67,12 @@ const AddPatientForm: React.FC<UpdateFormInterface> = (props) => {
 	const createData = () => {
 		apiClient()
 			.post(`${BACKENDAPI}/v1.0/patients`, { ...formData })
-			.then((response) => {
+			.then((response:any) => {
 				console.log(response);
+				if(props.type == "add"){
+					props.updateDataStates(response.data.patient)
+					props.showModal(false);
+				}
 				toast.success("Data saved");
 				resetFunction();
 			})

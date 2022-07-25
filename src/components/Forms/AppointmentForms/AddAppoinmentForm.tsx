@@ -3,6 +3,8 @@ import { BACKENDAPI } from "../../../config";
 import { apiClient } from "../../../utils/apiClient";
 import { toast } from "react-toastify";
 import { UpdateFormInterface } from "../../../interfaces/UpdateFormInterfaced";
+import CustomModal from "../../Modal/Modal";
+import AddPatientForm from "../PatientForms/AddPatientForm";
 
 interface FormData {
 	date: string;
@@ -25,13 +27,16 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 	});
 	const [statusList, setStatusList] = useState(["Pending Confirmation","Confirmed","Treated","Cancelled"]);
 	const [doctors, setDoctors] = useState([]);
-	const [patients, setPatients] = useState([]);
+	const [patients, setPatients] = useState<any>([]);
 	const [errors, setErrors] = useState<any>(null);
 	useEffect(() => {
 		loadDoctors();
 		loadPatients();
 	}, []);
-
+	const [modalIsOpen, setIsOpen] = React.useState(false);
+	const showModal = (show: boolean) => {
+		setIsOpen(show);
+	};
 	const loadDoctors = () => {
 		apiClient()
 			.get(`${BACKENDAPI}/v1.0/doctors/all`)
@@ -43,7 +48,11 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 				console.log(error.response);
 			});
 	};
-	
+	const updateDataStates = (data:any) => {
+const tempPatients = [...patients]
+tempPatients.push(data)
+setPatients(tempPatients);
+	}
 
 	const loadPatients = () => {
 		apiClient()
@@ -141,6 +150,7 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	return (
+		<>
 		<form className="row g-3" onSubmit={handleSubmit}>
 		<div className="col-md-4">
 		<label htmlFor="bill" className="form-label">
@@ -191,7 +201,7 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 			onChange={handleSelect}
 			value={formData.patient_id}>
 			<option value="">Please Select</option>
-			{patients.map((el: any, index) => (
+			{patients.map((el: any, index:number) => (
 				<option
 					key={index}
 					value={el.id}
@@ -205,6 +215,19 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 			<div className="invalid-feedback">{errors.patient_id[0]}</div>
 		)}
 		{errors && <div className="valid-feedback">Looks good!</div>}
+	</div>
+	<div className="col-md-2 mt-5">
+		<button 
+		type="button"
+		 className="btn btn-primary"
+		 onClick={() => {
+		
+			showModal(true);
+		}}
+		
+		>
+			+
+		</button>
 	</div>
 		<div className="col-md-4">
 				<label htmlFor="date" className="form-label">
@@ -285,8 +308,7 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 			)}
 			{errors && <div className="valid-feedback">Looks good!</div>}
 		</div>
-		
-		
+	
 
 			<div className="text-center">
 				<button type="submit" className="btn btn-primary me-2">
@@ -300,6 +322,18 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 				</button>
 			</div>
 		</form>
+			
+		<CustomModal
+				isOpen={modalIsOpen}
+				showModal={showModal}
+				type="Update Appointment">
+				<AddPatientForm
+				updateDataStates={updateDataStates}
+					showModal={showModal}
+					type="add"
+				/>
+			</CustomModal>
+		</>
 	);
 };
 

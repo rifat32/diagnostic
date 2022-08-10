@@ -10,6 +10,7 @@ import AddPrescriptionForm from "../../Forms/PrescriptionForms/AddPrescriptionFo
 import { Link } from "react-router-dom";
 import AddPaymentForm from "../../Forms/ExpenseForms/AddPaymentForm";
 import AddPrescriptionPaymentForm from "../../Forms/PrescriptionForms/AddPaymentForm";
+import { printInvoice } from "../../../utils/PrintInvoice";
 
 const ListPrescriptionPageComponent: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -65,7 +66,7 @@ const ListPrescriptionPageComponent: React.FC = () => {
 	const deleteData = (id: number) => {
 		if (window.confirm("Are you sure  want to delete ?")) {
 			apiClient()
-				.delete(`${BACKENDAPI}/v1.0/doctors/${id}`)
+				.delete(`${BACKENDAPI}/v1.0/prescriptions/${id}`)
 				.then((response: any) => {
 					console.log(response);
 					const tempDatas = data.filter((el: any) => {
@@ -85,6 +86,18 @@ const ListPrescriptionPageComponent: React.FC = () => {
 			paid += parseFloat(el.amount)
 		})
 		return  paid;
+	}
+	const getInvoice = (id:number) => {
+
+		apiClient()
+				.get(`${BACKENDAPI}/v1.0/prescriptions/get/invoice/${id}`)
+				.then((response: any) => {
+					printInvoice(response.data.invoice);
+				})
+				.catch((error) => {
+					console.log(error.response);
+				});
+
 	}
 	return (
 		<>
@@ -128,6 +141,17 @@ const ListPrescriptionPageComponent: React.FC = () => {
 														href="#">
 														edit
 													</Link>
+												</li>
+												<li>
+													<a
+														onClick={() => {
+															getInvoice(el.id);
+														
+														}}
+														className="dropdown-item"
+														href="#">
+														print
+													</a>
 												</li>
 												<li>
 													<a

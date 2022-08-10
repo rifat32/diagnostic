@@ -67,7 +67,7 @@ const ListProductsPageComponent: React.FC = () => {
 			<table className="table">
 				<thead>
 					<tr>
-						<th scope="col">Wing</th>
+					
 						<th scope="col"> Product Name</th>
 						<th scope="col">Brand</th>
 						<th scope="col">Category</th>
@@ -82,7 +82,7 @@ const ListProductsPageComponent: React.FC = () => {
 						{data.map((el: any) => {
 							return (
 								<tr key={el.id}>
-									<td>{el.wing?.name && el.wing.name}</td>
+									
 									<td>{el.name && el.name}</td>
 									<td>{el.brand && el.brand}</td>
 									<td>{el.category && el.category}</td>

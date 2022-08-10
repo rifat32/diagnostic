@@ -133,50 +133,60 @@ value:""
     });
   };
   const [search, setSearch] = useState("");
+  const [products, setProducts] = useState([]);
   // get search string Function
   const searchFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+   
+    searchProduct(e.target.value);
   };
+  const setProductFunc = (product:any) => {
+    const tempValues = [...formData.prescription];
+    let foundProduct =   tempValues.find(el => {
+         return el.product_name === product.name
+       })
+
+if(!foundProduct){
+ tempValues.push({
+   id: "0",
+   product_id: product.id,
+   product_name: product.name,
+   times:{
+     morning:false,
+     afternoon:false,
+     night:false,
+   },
+   end_time:''
+ });
+
+ setFormData({ ...formData, prescription: tempValues });
+}
+  }
   // search on enter
   const searchOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === "Enter") {
       e.preventDefault();
+      setProducts([])
       searchProduct(search);
+    
     }
   };
   // search on focus change
   const searchOnBlur = () => {
+    setProducts([])
     searchProduct(search);
   };
   // product search logic
+
   const searchProduct = (search: string) => {
     apiClient()
       .get(`${BACKENDAPI}/v1.0/products/search/${search}`)
       .then((response: any) => {
         console.log(response);
         const { product } = response.data;
-        // setproduct(product);
-        // setFormData({ ...formData, product_id: product.id });
-        const tempValues = [...formData.prescription];
-     let foundProduct =   tempValues.find(el => {
-          return el.product_name === product.name
-        })
+          setProducts(product)
+         
 
-if(!foundProduct){
-  tempValues.push({
-    id: "0",
-    product_id: product.id,
-    product_name: product.name,
-    times:{
-      morning:false,
-      afternoon:false,
-      night:false,
-    },
-    end_time:''
-  });
-
-  setFormData({ ...formData, prescription: tempValues });
-}
       
       })
       .catch((error) => {
@@ -184,7 +194,8 @@ if(!foundProduct){
         // setproduct(null);
         // setFormData({ ...formData, product_id: "" });
         if (error.response.status === 404) {
-          toast("np product found");
+          setProducts([])
+          // toast("np product found");
         }
       });
   };
@@ -238,7 +249,20 @@ id,
   next_appointment,
   medical_history
 } = response.data.data
-
+const tempMedicines = medicines.map((el:any) =>{
+  return {
+    product_id:el.product_id,
+    product_name:el.product_name,
+    times:{
+      morning:el.morning,
+      afternoon:el.afternoon,
+      night:el.night
+    },
+    end_time:el.end_time,
+    
+  }
+ 
+})
 
 
 setFormData({
@@ -249,7 +273,7 @@ setFormData({
   next_appointment,
   fees,
 
-  prescription: medicines,
+  prescription: tempMedicines,
   tests,
   cc,
   patient_history,
@@ -404,6 +428,7 @@ const [modalIsOpen, setIsOpen] = React.useState(false);
 const showModal = (show: boolean) => {
   setIsOpen(show);
 };
+
 
 
 const updateDataStates = (updatedData: any) => {
@@ -613,7 +638,8 @@ const updateDataStates = (updatedData: any) => {
             <h3 className="text-center">Medicines</h3>
             </div>
 			<div className="col-12">
-      <div className="input-group mb-3">
+        <div className="row">
+        <div className="input-group mb-3">
                 <span className="input-group-text">
                   <i className="bi bi-search" />
                 </span>
@@ -623,11 +649,19 @@ const updateDataStates = (updatedData: any) => {
                   aria-label="search"
                   onChange={searchFunc}
                   value={search}
-                  onKeyDown={searchOnKeyDown}
-                  onBlur={searchOnBlur}
+       
                   placeholder="search product by name"
                 />
-              </div>
+             
+         </div>
+         <div style={{marginTop:"-0.7rem",marginBottom:"0.8rem"}} >
+          {products.map((el:any) => {
+return   <h5 style={{cursor:"pointer"}} className="border-bottom"  onClick={() => setProductFunc(el)}>{el.name}</h5>
+          })}
+        
+         </div>
+        </div>
+     
          
         
           <div className="row bg-primary">
@@ -918,6 +952,7 @@ const updateDataStates = (updatedData: any) => {
           onClick={() => {
            
             showModal(true);
+           
           }}
           
          className="btn btn-primary" 
@@ -1001,7 +1036,7 @@ const updateDataStates = (updatedData: any) => {
 				showModal={showModal}
 				type="Madical History">
 				<AddMedicalHistoryForm
-					value={""}
+					value={formData.medical_history}
 					updateDataStates={updateDataStates}
 					showModal={showModal}
 					type="update"

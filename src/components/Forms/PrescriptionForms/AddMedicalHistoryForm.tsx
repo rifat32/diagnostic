@@ -167,6 +167,9 @@ const AddMedicalHistoryForm: React.FC<UpdateFormInterface> = (props) => {
 	const [errors, setErrors] = useState<any>(null);
 
 	useEffect(() => {
+		if(props.value) {
+			setFormData(JSON.parse(props.value))
+		}
 		
 	}, []);
 
@@ -599,7 +602,7 @@ const AddMedicalHistoryForm: React.FC<UpdateFormInterface> = (props) => {
 					   <label
 						   className="form-check-label"
 						   htmlFor={`penicillin_given`}>
-					(6) Have you ever experienced unusually prononged bleeding after injury or tooth extraction?
+					(6) Have you ever been given penicillin?
 					   </label>
 				   </div>
 			

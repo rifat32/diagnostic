@@ -52,6 +52,8 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 const tempPatients = [...patients]
 tempPatients.push(data)
 setPatients(tempPatients);
+
+setFormData({...formData,patient_id:data.id})
 	}
 
 	const loadPatients = () => {
@@ -326,7 +328,7 @@ setPatients(tempPatients);
 		<CustomModal
 				isOpen={modalIsOpen}
 				showModal={showModal}
-				type="Update Appointment">
+				type="Create Patient">
 				<AddPatientForm
 				updateDataStates={updateDataStates}
 					showModal={showModal}

@@ -137,9 +137,9 @@ value:""
   // get search string Function
   const searchFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-   
     searchProduct(e.target.value);
   };
+
   const setProductFunc = (product:any) => {
     const tempValues = [...formData.prescription];
     let foundProduct =   tempValues.find(el => {

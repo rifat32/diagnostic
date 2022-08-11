@@ -159,6 +159,40 @@ export const adminSideBarData: NavInterface[] = [
 			},
 		],
 	},
+	{
+		name: "Treatment Plan",
+		list: [
+			{
+				name: "Create Treatment",
+				link: "/admin/services/create",
+				permissions: [],
+			},
+			{
+				name: "List Treatment Plan",
+				link: "/admin/services",
+				permissions: [],
+			},
+
+			
+		],
+	},
+	{
+		name: "Sale",
+		list: [
+			{
+				name: "Create Sale",
+				link: "/admin/sales/create",
+				permissions: [],
+			},
+			{
+				name: "List Sales",
+				link: "/admin/sales",
+				permissions: [],
+			},
+
+			
+		],
+	},
 	// {
 	// 	name: "Requisition",
 	// 	list: [

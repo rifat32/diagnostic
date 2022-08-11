@@ -58,6 +58,11 @@ import ViewPatientHistoryPage from "./pages/AdminPages/Patient/ViewPatientHistor
 import ReportAppointmentPage from "./pages/AdminPages/Appointment/ReportAppointmentPage";
 import ReportPrescriptionPage from "./pages/AdminPages/Prescription/ReportPrescriptionPage";
 import ReportPatientsPage from "./pages/AdminPages/Patient/ReportPatientsPage";
+import AddService from "./pages/AdminPages/Service/AddServicePage";
+import ServiceList from "./pages/AdminPages/Service/ListServicePage";
+import AddSalePage from "./pages/AdminPages/Sale/AddSalePage";
+import ListSalePage from "./pages/AdminPages/Sale/ListSalePage";
+
 
 export const RouteData: RouteInterface[] = [
 	{
@@ -234,6 +239,28 @@ export const RouteData: RouteInterface[] = [
 	// 	component: ListReportTemplatePage,
 	// },
 	// products
+	{
+		path: "/admin/services/create",
+		exact: false,
+		component: AddService,
+	},
+	{
+		path: "/admin/services",
+		exact: true,
+		component: ServiceList,
+	},
+	{
+		path: "/admin/sales/create",
+		exact: false,
+		component: AddSalePage,
+	},
+	{
+		path: "/admin/sales",
+		exact: true,
+		component: ListSalePage,
+	},
+
+
 	{
 		path: "/admin/products/create",
 		exact: false,

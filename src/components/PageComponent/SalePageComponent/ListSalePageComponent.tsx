@@ -176,6 +176,14 @@ const ListSalePageComponent: React.FC = () => {
 														edit
 													</a>
 												</li> */}
+												<li>
+													<Link
+													   to={`/admin/sales/edit/${el.id}`}
+														className="dropdown-item"
+														href="#">
+														edit
+													</Link>
+												</li>
 											<li>
 													<a
 													  

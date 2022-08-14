@@ -254,6 +254,18 @@ export const RouteData: RouteInterface[] = [
 		exact: false,
 		component: AddSalePage,
 	},
+	// aaaaaa
+	{
+		path: "/admin/sales/edit/:id",
+		exact: false,
+		component: AddSalePage,
+	},
+	{
+		path: "/admin/prescriptions/edit/:id",
+		exact: false,
+		component: AddPrescriptionPage,
+	},
+	// aaaaaaaa
 	{
 		path: "/admin/sales",
 		exact: true,

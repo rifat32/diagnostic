@@ -5,7 +5,7 @@ import AdminPageComponent from "../../../components/PageComponent/AdminPageCompo
 import AddAppoinmentForm from "../../../components/Forms/AppointmentForms/AddAppoinmentForm";
 import AddSaleForm from "../../../components/Forms/SaleForms/AddSaleForm";
 
-const AddSalePage: React.FC = () => {
+const AddSalePage: React.FC = (props:any) => {
 	return (
 		<AdminPageComponent>
 			<main id="main" className="main">
@@ -28,8 +28,12 @@ const AddSalePage: React.FC = () => {
 							<div className="card">
 								<div className="card-body">
 									<h5 className="card-title">Add Sale</h5>
-
-									<AddSaleForm />
+									{
+	props?.match.params.id? (<AddSaleForm 	value={props?.match.params.id}
+				
+		type="update" />):(<AddSaleForm value={props?.match.params.appointmentId}   />)
+}
+									
 								</div>
 							</div>
 						</div>

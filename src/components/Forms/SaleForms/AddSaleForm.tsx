@@ -7,6 +7,7 @@ import CustomModal from "../../Modal/Modal";
 import AddPatientForm from "../PatientForms/AddPatientForm";
 
 interface FormData {
+	id:string;
 	sale_date: string;
 	remarks: string;
 	status: string;
@@ -29,6 +30,7 @@ interface Service {
 
 const AddSaleForm: React.FC<UpdateFormInterface> = (props) => {
 	const [formData, setFormData] = useState<FormData>({
+		id:"",
 	sale_date: "",
 	remarks:'',
 	status: '',
@@ -37,7 +39,12 @@ const AddSaleForm: React.FC<UpdateFormInterface> = (props) => {
 	services:[],
 	discount:'0'
 	});
-	const [statusList, setStatusList] = useState(["Pending Confirmation","Confirmed","Treated","Cancelled"]);
+	const [statusList, setStatusList] = useState([
+		"Pending Confirmation",
+		"Confirmed",
+		// "Treated",
+		"Cancelled"
+]);
 	const [doctors, setDoctors] = useState([]);
 	const [patients, setPatients] = useState<any>([]);
 	const [errors, setErrors] = useState<any>(null);
@@ -90,6 +97,7 @@ setFormData({...formData,patient_id:data.id})
 	};
 	const resetFunction = () => {
 		setFormData({
+			id:"",
 	sale_date: "",
 	remarks:'',
 	status: '',
@@ -134,12 +142,53 @@ setFormData({...formData,patient_id:data.id})
 	// edit data section
 	useEffect(() => {
 		if (props.type == "update") {
-			setFormData(props.value);
+			apiClient().get(`${BACKENDAPI}/v1.0/sales/${props.value}`)
+			.then((response:any) => {
+	  const{
+	
+	  id,
+	  sale_date,
+	  status,
+		doctor_id,
+		patient_id,
+		sale_details,
+		discount,
+		
+	  } = response.data.data
+	
+	const tempServices = sale_details.map((el:any) => {
+	
+		return {
+			id: el.id,
+			product_id:el.product.id,
+			product_name:el.product.name,
+			price:el.amount,
+			line_discount:el.line_discount
 		}
+	})
+	
+	
+	  setFormData({
+		...formData,
+		id,
+		sale_date,
+		status,
+		doctor_id,
+		patient_id,
+		services:tempServices,
+		discount
+	  
+	  
+	  })
+	  setToggler(!toggler)
+			
+	})
+		}
+
 	}, []);
 	const updateData = () => {
 		apiClient()
-			.put(`${BACKENDAPI}/v1.0/appointments`, { ...formData })
+			.put(`${BACKENDAPI}/v1.0/sales`, { ...formData })
 			.then((response: any) => {
 				console.log(response);
 				toast.success("Data Updated");
@@ -181,7 +230,7 @@ setFormData({...formData,patient_id:data.id})
 		const [search, setSearch] = useState("");
 		const searchProduct = (search: string) => {
 			apiClient()
-			  .get(`${BACKENDAPI}/v1.0/products/search/${search}`)
+			  .get(`${BACKENDAPI}/v1.0/products/search/${search}?type=service`)
 			  .then((response: any) => {
 				console.log(response);
 				const { product } = response.data;

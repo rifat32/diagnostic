@@ -172,13 +172,6 @@ export const adminSideBarData: NavInterface[] = [
 				link: "/admin/services",
 				permissions: [],
 			},
-
-			
-		],
-	},
-	{
-		name: "Sale",
-		list: [
 			{
 				name: "Create Sale",
 				link: "/admin/sales/create",
@@ -189,10 +182,17 @@ export const adminSideBarData: NavInterface[] = [
 				link: "/admin/sales",
 				permissions: [],
 			},
-
 			
 		],
 	},
+	// {
+	// 	name: "Sale",
+	// 	list: [
+			
+
+			
+	// 	],
+	// },
 	// {
 	// 	name: "Requisition",
 	// 	list: [

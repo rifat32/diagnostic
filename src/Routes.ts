@@ -54,7 +54,7 @@ import ListReportTemplatePage from "./pages/AdminPages/LaboratoryReports/ListRep
 import AddPrescriptionPage from "./pages/AdminPages/Prescription/AddPrescriptionPage";
 import AddReportTemplatePage2 from "./pages/AdminPages/LaboratoryReports/AddReportTemplatePage2";
 import ListPrescriptionPage from "./pages/AdminPages/Prescription/ListPrescriptionPage";
-import ViewPatientHistoryPage from "./pages/AdminPages/Patient/ViewPatientHistoryPage";
+import ViewPatientHistoryPage from "./pages/AdminPages/Patient/ViewPatientPrescriptionHistoryPage";
 import ReportAppointmentPage from "./pages/AdminPages/Appointment/ReportAppointmentPage";
 import ReportPrescriptionPage from "./pages/AdminPages/Prescription/ReportPrescriptionPage";
 import ReportPatientsPage from "./pages/AdminPages/Patient/ReportPatientsPage";
@@ -62,6 +62,10 @@ import AddService from "./pages/AdminPages/Service/AddServicePage";
 import ServiceList from "./pages/AdminPages/Service/ListServicePage";
 import AddSalePage from "./pages/AdminPages/Sale/AddSalePage";
 import ListSalePage from "./pages/AdminPages/Sale/ListSalePage";
+import ListMainPatientsPage from "./pages/AdminPages/Patient/ListMainPatientsPage";
+import ListDuePrescriptionPage from "./pages/AdminPages/Prescription/ListDuePrescriptionPage";
+import ViewPatientPrescriptionHistoryPage from "./pages/AdminPages/Patient/ViewPatientPrescriptionHistoryPage";
+import ViewPatientTreatmentPlanHistoryPage from "./pages/AdminPages/Patient/ViewPatientTreatementPlanHistoryPage";
 
 
 export const RouteData: RouteInterface[] = [
@@ -164,7 +168,11 @@ export const RouteData: RouteInterface[] = [
 	exact: true,
 	component: ListPrescriptionPage,
 },
-
+{
+	path: ROUTE_LIST.listDuePrescrption,
+	exact: true,
+	component: ListDuePrescriptionPage,
+},
 
 
 	// Patient
@@ -179,10 +187,21 @@ export const RouteData: RouteInterface[] = [
 		component: ListPatientsPage,
 	},
 	{
-		path: ROUTE_LIST.viewPatientHistory,
+		path: "/admin/patients/main-patients",
 		exact: true,
-		component: ViewPatientHistoryPage,
+		component: ListMainPatientsPage,
 	},
+	{
+		path: ROUTE_LIST.viewPatientPrescriptionHistory,
+		exact: true,
+		component: ViewPatientPrescriptionHistoryPage,
+	},
+	{
+		path: ROUTE_LIST.viewPatientTreatmentPlanHistory,
+		exact: true,
+		component: ViewPatientTreatmentPlanHistoryPage,
+	},
+	
 	
 	// Appointment
 	{

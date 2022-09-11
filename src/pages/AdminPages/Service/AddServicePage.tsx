@@ -8,13 +8,13 @@ const AddService: React.FC = () => {
 		<AdminPageComponent>
 			<main id="main" className="main">
 				<div className="pagetitle">
-					<h1>Add New Treatment Plan</h1>
+					<h1>Add New Service</h1>
 					<nav>
 						<ol className="breadcrumb">
 							<li className="breadcrumb-item">
 								<a href="index.html">Home</a>
 							</li>
-							<li className="breadcrumb-item">Treatment Plan</li>
+							<li className="breadcrumb-item">Service</li>
 							<li className="breadcrumb-item active">Add Service</li>
 						</ol>
 					</nav>
@@ -25,7 +25,7 @@ const AddService: React.FC = () => {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">Add Treatment Plan</h5>
+									<h5 className="card-title">Service</h5>
 
 									<AddServiceForm />
 								</div>

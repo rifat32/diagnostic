@@ -15,14 +15,14 @@ const ListSalePage: React.FC = () => {
 		<AdminPageComponent>
 			<main id="main" className="main">
 				<div className="pagetitle">
-					<h1>List Sales</h1>
+					<h1>List Treatment Plan</h1>
 					<nav>
 						<ol className="breadcrumb">
 							<li className="breadcrumb-item">
 								<a href="index.html">Home</a>
 							</li>
-							<li className="breadcrumb-item">Sales</li>
-							<li className="breadcrumb-item active">List Sales</li>
+							<li className="breadcrumb-item">Treatement Plan</li>
+							<li className="breadcrumb-item active">List Treatement Plan</li>
 						</ol>
 					</nav>
 				</div>

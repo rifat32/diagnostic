@@ -20,12 +20,17 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 	const [formData, setFormData] = useState<FormData>({
 	date: "",
 	remarks:'',
-	status: '',
+	status: 'Pending Confirmation',
 	doctor_id: '',
 	patient_id: '',
 	
 	});
-	const [statusList, setStatusList] = useState(["Pending Confirmation","Confirmed","Treated","Cancelled"]);
+	const [statusList, setStatusList] = useState([
+		"Pending Confirmation",
+		// "Confirmed",
+		// "Treated",
+		// "Cancelled"
+	]);
 	const [doctors, setDoctors] = useState([]);
 	const [patients, setPatients] = useState<any>([]);
 	const [errors, setErrors] = useState<any>(null);
@@ -294,7 +299,7 @@ setFormData({...formData,patient_id:data.id})
 				name="status"
 				onChange={handleSelect}
 				value={formData.status}>
-				<option value="">Please Select</option>
+			
 				{statusList.map((el: any, index) => (
 					<option
 						key={index}

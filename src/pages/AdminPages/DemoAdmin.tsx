@@ -8,7 +8,9 @@ const Admin: React.FC = () => {
 
 	const [data,setData] = useState<any>(null)
 
-
+const [selected,setSelected] = useState<any>({
+  due:"today"
+})
 
 
 
@@ -210,6 +212,47 @@ const Admin: React.FC = () => {
                 </div>
                 <div className="ps-3">
                   <h6>{data?.today_sell}</h6>
+                  {/* <span className="text-success small pt-1 fw-bold">12%</span> <span className="text-muted small pt-2 ps-1">increase</span> */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+  
+                {/* Total Due */}
+<div className="col-xxl-4 col-md-6" >
+          <div className="card info-card sales-card" style={{height:"120%"}}>
+            <div className="filter">
+              <a className="icon" style={{cursor:"pointer"}} data-bs-toggle="dropdown"><i className="bi bi-three-dots" /></a>
+              <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+              <li className="dropdown-header text-start">
+                  <h6>Filter</h6>
+                </li>
+                <li><a className="dropdown-item" style={{cursor:"pointer"}}  onClick={()=>{
+                  setSelected({...selected,due:"today"})
+                }}>Today</a></li>
+                <li><a className="dropdown-item" style={{cursor:"pointer"}}  onClick={()=>{
+                  setSelected({...selected,due:"this_month"})
+                }}>This Month</a></li>
+                <li><a className="dropdown-item" style={{cursor:"pointer"}}   onClick={()=>{
+                  setSelected({...selected,due:"total"})
+                }}>Total</a></li>
+              </ul>
+            </div>
+            <div className="card-body">
+              <h5 className="card-title">Due</h5>
+              <div className="d-flex align-items-center">
+                <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i className="bi bi-person-bounding-box" />
+                </div>
+                <div className="ps-3">
+                  <h6>
+                    {selected.due == "today"?(data?.today_prescription_due):(null)}
+                    {selected.due == "total"?(data?.total_prescription_due):(null)}
+                    {selected.due == "this_month"?(data?.this_month_prescription_due):(null)}
+                    
+                    </h6>
                   {/* <span className="text-success small pt-1 fw-bold">12%</span> <span className="text-muted small pt-2 ps-1">increase</span> */}
                 </div>
               </div>

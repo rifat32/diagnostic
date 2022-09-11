@@ -2,21 +2,23 @@ import React from "react";
 import AdminPageComponent from "../../../components/PageComponent/AdminPageComponent";
 import ListProductsPageComponent from "../../../components/PageComponent/ProductComponent/ListProductsPageComponent";
 import { Link } from "react-router-dom";
-import ListServicePageComponent from "../../../components/PageComponent/ServiceComponent /ListServicePageComponent";
 
-const ServiceList: React.FC = () => {
+import ListMainPatientsPageComponent from "../../../components/PageComponent/PatientComponent/ListMainPatientPageComponent";
+import { ROUTE_LIST } from "../../../RoutConstants";
+
+const ListMainPatientsPage: React.FC = () => {
 	return (
 		<AdminPageComponent>
 			<main id="main" className="main">
 				<div className="pagetitle">
-					<h1>List Services</h1>
+					<h1>List Patients</h1>
 					<nav>
 						<ol className="breadcrumb">
 							<li className="breadcrumb-item">
 								<a href="index.html">Home</a>
 							</li>
-							<li className="breadcrumb-item">Treatment Plan</li>
-							<li className="breadcrumb-item active">List Service</li>
+							<li className="breadcrumb-item">Patients</li>
+							<li className="breadcrumb-item active">List Patients</li>
 						</ol>
 					</nav>
 				</div>
@@ -27,14 +29,14 @@ const ServiceList: React.FC = () => {
 							<div className="card">
 								<div className="card-body">
 									<div className="d-flex justify-content-between align-items-end">
-										<h5 className="card-title">All Services</h5>
+										<h5 className="card-title">All Patients</h5>
 										<Link
-											to="/admin/products/create"
+											to={ROUTE_LIST.createPatient}
 											className="btn btn-primary">
 											Add Data
 										</Link>
 									</div>
-									<ListServicePageComponent />
+									<ListMainPatientsPageComponent />
 								</div>
 							</div>
 						</div>
@@ -45,4 +47,4 @@ const ServiceList: React.FC = () => {
 	);
 };
 
-export default ServiceList;
+export default ListMainPatientsPage;

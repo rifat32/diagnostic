@@ -16,8 +16,9 @@ interface FormData {
   prescription: Prescription[];
   tests: Test[];
   cc: CC[];
-  note: string;
-  patient_history: string;
+  oe: OE[];
+  past_medical_history: string;
+  drug_history: string;
   next_appointment:string;
   fees:string;
   medical_history:string;
@@ -40,13 +41,17 @@ interface CC {
   name: string;
   value: string;
 }
+interface OE {
+  name: string;
+  value: string;
+}
 const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
   const [formData, setFormData] = useState<FormData>({
     id:"",
     description: "",
     prescription: [],
-    note: "",
-    patient_history:"",
+    past_medical_history: "",
+    drug_history:"",
   
     tests: [{ name: "" }],
     next_appointment:'',
@@ -64,6 +69,20 @@ value:""
             value:""
      },
   ],
+  oe:[
+    {
+name:"BP",
+value:""
+  },
+  {
+    name:"Pulse",
+    value:""
+  },
+  {
+          name:"Heart",
+          value:""
+   },
+],
   fees:'',
   medical_history:''
   });
@@ -111,8 +130,8 @@ value:""
       id:"",
       description: "",
       prescription: [],
-      note: "",
-      patient_history:"",
+      past_medical_history: "",
+      drug_history:"",
       tests: [{ name: "" }],
       cc:[ {
         name:"BP",
@@ -126,6 +145,18 @@ value:""
                     name:"Heart",
                     value:""
              },],
+             oe:[ {
+              name:"BP",
+              value:""
+                  },
+                  {
+                    name:"Pulse",
+                    value:""
+                  },
+                  {
+                          name:"Heart",
+                          value:""
+                   },],
             next_appointment:'',
             fees:'',
             medical_history:""
@@ -193,7 +224,7 @@ if(!foundProduct){
         console.log(error.response);
         // setproduct(null);
         // setFormData({ ...formData, product_id: "" });
-        if (error.response.status === 404) {
+        if (error.response?.status === 404) {
           setProducts([])
           // toast("np product found");
         }
@@ -214,18 +245,18 @@ if(!foundProduct){
       .then((response:any) => {
         console.log(response);
         toast.success("Data saved");
-        printInvoice(response.data.invoice);
+        // printInvoice(response.data.invoice);
         // resetFunction();
 
         // window.location.href = `${document.location.origin}${ROUTE_LIST.listAppointment}`;
       })
       .catch((error) => {
         console.log(error.response);
-        if (error.response.status === 422) {
+        if (error.response?.status === 422) {
           toast.error("invalid input");
-          setErrors(error.response.data.errors);
+          setErrors(error.response?.data?.errors);
         }
-        ErrorMessage(error.response.status, error.response.data.message);
+        ErrorMessage(error.response?.status, error.response?.data?.message);
       });
   };
   // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -243,9 +274,10 @@ id,
   medicines,
   tests,
   cc,
+  oe,
   payments,
-  note,
-  patient_history,
+  past_medical_history,
+  drug_history,
   next_appointment,
   medical_history
 } = response.data.data
@@ -269,14 +301,15 @@ setFormData({
   ...formData,
   id,
   description,
-  note,
+  past_medical_history,
   next_appointment,
   fees,
 
   prescription: tempMedicines,
   tests,
   cc,
-  patient_history,
+  oe,
+  drug_history,
   medical_history
 
 
@@ -304,10 +337,10 @@ setFormData({
       .catch((error) => {
         console.log(error);
         console.log(error.response);
-        if (error.response.status === 404 || error.response.status === 400) {
+        if (error.response?.status === 404 || error.response?.status === 400) {
           toast.error(error.response.data.message);
         }
-        if (error.response.status === 422) {
+        if (error.response?.status === 422) {
           toast.error("invalid input");
           setErrors(error.response.data.errors);
         }
@@ -355,6 +388,16 @@ setFormData({
    
     setFormData({ ...formData, cc: tempValues });
   };
+  const handleOEChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let index: number = parseInt(e.target.name.split(".")[1]);
+    let name: string = e.target.name.split(".")[2];
+    console.log(index);
+    const tempValues: any = [...formData.oe];
+    console.log(name);
+    tempValues[index][name] = e.target.value;
+   
+    setFormData({ ...formData, oe: tempValues });
+  };
   const removePresctiptionElement = (index: number) => {
     const tempValues = [...formData.prescription];
 
@@ -393,6 +436,14 @@ setFormData({
 
     setFormData({ ...formData, cc: tempValues });
   };
+  const removeOEElement = (index: number) => {
+    const tempValues = [...formData.oe];
+
+    tempValues.splice(index, 1);
+
+    setFormData({ ...formData, oe: tempValues });
+  };
+
 
   const AddCC = () => {
     const tempValues = [...formData.cc];
@@ -403,6 +454,15 @@ setFormData({
 
     setFormData({ ...formData, cc: tempValues });
   };
+  const AddOE = () => {
+    const tempValues = [...formData.oe];
+    tempValues.push({
+      name: "",
+      value:''
+    });
+
+    setFormData({ ...formData, oe: tempValues });
+  };
   const deleteCC = () => {
     const tempValues = [...formData.cc];
 
@@ -410,6 +470,14 @@ setFormData({
       tempValues.pop();
     }
     setFormData({ ...formData, cc: tempValues });
+  };
+  const deleteOE = () => {
+    const tempValues = [...formData.oe];
+
+    if (tempValues.length > 1) {
+      tempValues.pop();
+    }
+    setFormData({ ...formData, oe: tempValues });
   };
 
   function getAge(dateString:string) {
@@ -515,7 +583,7 @@ const updateDataStates = (updatedData: any) => {
           <div className="row ">
         <div className="col-12">
          
-            <h3 className="ms-2">O/E</h3>
+            <h3 className="ms-2">CC</h3>
         
           <div className="row bg-primary">
             <div className="col-md-5">
@@ -626,7 +694,124 @@ const updateDataStates = (updatedData: any) => {
         </div>
       </div>
 
+{/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ OE @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */}
+  {/* oe */}
+  {
+    props.type === "update"?(  <div className="row ">
+    <div className="col-12">
+     
+        <h3 className="ms-2">OE</h3>
+    
+      <div className="row bg-primary">
+        <div className="col-md-5">
 
+          <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Name</p>
+        </div>
+        <div className="col-md-5">
+
+<p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Value</p>
+</div>
+        <div className="col-md-2">
+       
+         
+        </div>
+      </div>
+      <div className="row mb-2">
+        
+        {formData.oe?.map((el, index) => {
+          return (
+            <div className="col-12">
+              <br />
+              <div className="row">
+                <div className="col-md-5">
+                  <input
+                    type="text"
+                    className={
+                      errors
+                        ? errors[`oe.${index}.name`]
+                          ? `form-control is-invalid`
+                          : `form-control is-valid`
+                        : "form-control"
+                    }
+                    id={`oe.${index}.name`}
+                    name={`oe.${index}.name`}
+                    onChange={handleOEChange}
+                    value={formData.oe[index].name}
+                  />
+                  {errors && (
+                    <>
+                      {errors[`oe.${index}.name`] ? (
+                        <div className="invalid-feedback">
+                          This field is required
+                        </div>
+                      ) : (
+                        <div className="valid-feedback">Looks good!</div>
+                      )}
+                    </>
+                  )}
+                </div>
+                <div className="col-md-5">
+                  <input
+                    type="text"
+                    className={
+                      errors
+                        ? errors[`oe.${index}.value`]
+                          ? `form-control is-invalid`
+                          : `form-control is-valid`
+                        : "form-control"
+                    }
+                    id={`oe.${index}.value`}
+                    name={`oe.${index}.value`}
+                    onChange={handleOEChange}
+                    value={formData.oe[index].value}
+                  />
+                  {errors && (
+                    <>
+                      {errors[`oe.${index}.value`] ? (
+                        <div className="invalid-feedback">
+                          This field is required
+                        </div>
+                      ) : (
+                        <div className="valid-feedback">Looks good!</div>
+                      )}
+                    </>
+                  )}
+                </div>
+                <div className="col-md-2">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => removeOEElement(index)}
+                  >
+                    x
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+     
+      </div>
+      <div className="text-center">
+          <button
+            className="btn btn-danger me-2"
+            type="button"
+            onClick={deleteOE}
+          >
+            -
+          </button>
+          <button
+            className="btn btn-primary"
+            type="button"
+            onClick={AddOE}
+          >
+            +
+          </button>
+        </div>
+    </div>
+  </div>):(null)
+  }
 
 
 
@@ -793,10 +978,106 @@ return   <h5 style={{cursor:"pointer"}} className="border-bottom"  onClick={() =
             })}
           </div>
         </div>
+     { props.type === "update"?(<div className="col-12 mt-5">
+         
+         <h3 className="text-center">Investigation</h3>
+     
+       <div className="row bg-primary">
+         <div className="col-md-10">
 
+           <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Investigation Name</p>
+         </div>
+         
+         <div className="col-md-2 text-center">
+         
+          
+         </div>
+       </div>
+       <div>
+         {formData.tests.map((el, index) => {
+           return (
+             <>
+               <br />
+               <div className="row">
+                 <div className="col-md-10 text-center">
+                   <input
+                     type="text"
+                     className={
+                       errors
+                         ? errors[`tests.${index}.name`]
+                           ? `form-control is-invalid`
+                           : `form-control is-valid`
+                         : "form-control"
+                     }
+                     id={`tests.${index}.name`}
+                     name={`tests.${index}.name`}
+                     onChange={handleTestChange}
+                     value={formData.tests[index].name}
+                   />
+                   {errors && (
+                     <>
+                       {errors[`tests.${index}.name`] ? (
+                         <div className="invalid-feedback">
+                           This field is required
+                         </div>
+                       ) : (
+                         <div className="valid-feedback">Looks good!</div>
+                       )}
+                     </>
+                   )}
+                 </div>
+                 <div className="col-md-2 text-center">
+                   <button
+                     type="button"
+                     className="btn btn-danger"
+                     onClick={() => removeTestsElement(index)}
+                   >
+                     X
+                   </button>
+                 </div>
+               </div>
+             </>
+           );
+         })}
 
+         <div className="text-center mt-2">
+           <button
+             className="btn btn-danger me-2"
+             type="button"
+             onClick={deleteTest}
+           >
+             -
+           </button>
+           <button
+             className="btn btn-primary"
+             type="button"
+             onClick={AddTest}
+           >
+             +
+           </button>
+         </div>
+       </div>
+     </div>):(null)}  
+        
 
           </div>
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
       </div>
 
@@ -808,86 +1089,7 @@ return   <h5 style={{cursor:"pointer"}} className="border-bottom"  onClick={() =
         </div>
         <div className="col-md-7">
         <div className="row ">
-        <div className="col-12">
-         
-            <h3 className="text-center">Investigation</h3>
-        
-          <div className="row bg-primary">
-            <div className="col-md-10">
-  
-              <p className="text-light mt-1" style={{fontSize:"0.8rem"}} >Name</p>
-            </div>
-            
-            <div className="col-md-2 text-center">
-            
-             
-            </div>
-          </div>
-          <div>
-            {formData.tests.map((el, index) => {
-              return (
-                <>
-                  <br />
-                  <div className="row">
-                    <div className="col-md-10 text-center">
-                      <input
-                        type="text"
-                        className={
-                          errors
-                            ? errors[`tests.${index}.name`]
-                              ? `form-control is-invalid`
-                              : `form-control is-valid`
-                            : "form-control"
-                        }
-                        id={`tests.${index}.name`}
-                        name={`tests.${index}.name`}
-                        onChange={handleTestChange}
-                        value={formData.tests[index].name}
-                      />
-                      {errors && (
-                        <>
-                          {errors[`tests.${index}.name`] ? (
-                            <div className="invalid-feedback">
-                              This field is required
-                            </div>
-                          ) : (
-                            <div className="valid-feedback">Looks good!</div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                    <div className="col-md-2 text-center">
-                      <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={() => removeTestsElement(index)}
-                      >
-                        X
-                      </button>
-                    </div>
-                  </div>
-                </>
-              );
-            })}
-
-            <div className="text-center mt-2">
-              <button
-                className="btn btn-danger me-2"
-                type="button"
-                onClick={deleteTest}
-              >
-                -
-              </button>
-              <button
-                className="btn btn-primary"
-                type="button"
-                onClick={AddTest}
-              >
-                +
-              </button>
-            </div>
-          </div>
-        </div>
+       
       </div>
         </div>
       </div>
@@ -896,22 +1098,22 @@ return   <h5 style={{cursor:"pointer"}} className="border-bottom"  onClick={() =
 
    
 
-      <div className="col-md-12">
-        <label htmlFor="note" className="form-label">
-          History
+      {/* <div className="col-md-12">
+        <label htmlFor="past_medical_history" className="form-label">
+          Past Medical History
         </label>
         <textarea
           className={
             errors
-              ? errors.note
+              ? errors.past_medical_history
                 ? `form-control is-invalid`
                 : `form-control is-valid`
               : "form-control"
           }
-          id="note"
-          name="note"
+          id="past_medical_history"
+          name="past_medical_history"
           onChange={handleTextareaChange}
-          value={formData.note}
+          value={formData.past_medical_history}
           rows={4}
         ></textarea>
 
@@ -919,23 +1121,25 @@ return   <h5 style={{cursor:"pointer"}} className="border-bottom"  onClick={() =
           <div className="invalid-feedback">{errors.name[0]}</div>
         )}
         {errors && <div className="valid-feedback">Looks good!</div>}
-      </div>
+      </div> */}
+
+      
       <div className="col-md-12">
-        <label htmlFor="patient_history" className="form-label">
-        Patient  History
+        <label htmlFor="drug_history" className="form-label">
+        Drug  History
         </label>
         <textarea
           className={
             errors
-              ? errors.patient_history
+              ? errors.drug_history
                 ? `form-control is-invalid`
                 : `form-control is-valid`
               : "form-control"
           }
-          id="patient_history"
-          name="patient_history"
+          id="drug_history"
+          name="drug_history"
           onChange={handleTextareaChange}
-          value={formData.patient_history}
+          value={formData.drug_history}
           rows={4}
         ></textarea>
 
@@ -956,7 +1160,7 @@ return   <h5 style={{cursor:"pointer"}} className="border-bottom"  onClick={() =
           }}
           
          className="btn btn-primary" 
-          >PMW</button>
+          >PMH</button>
         </div>
       </div>
       

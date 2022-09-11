@@ -16,8 +16,8 @@ const AddSalePage: React.FC = (props:any) => {
 							<li className="breadcrumb-item">
 								<a href="index.html">Home</a>
 							</li>
-							<li className="breadcrumb-item">Sale</li>
-							<li className="breadcrumb-item active">Add Sale</li>
+							<li className="breadcrumb-item"> Treatement Plan</li>
+							<li className="breadcrumb-item active">Add Treatement Plan</li>
 						</ol>
 					</nav>
 				</div>
@@ -27,7 +27,7 @@ const AddSalePage: React.FC = (props:any) => {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">Add Sale</h5>
+									<h5 className="card-title">Add Treatement Plan</h5>
 									{
 	props?.match.params.id? (<AddSaleForm 	value={props?.match.params.id}
 				

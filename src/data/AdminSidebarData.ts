@@ -82,6 +82,11 @@ export const adminSideBarData: NavInterface[] = [
 				link: "/admin/patients",
 				permissions: [],
 			},
+			{
+				name: "List Main Patients",
+				link: "/admin/patients/main-patients",
+				permissions: [],
+			},
 
 		
 		],
@@ -134,6 +139,11 @@ export const adminSideBarData: NavInterface[] = [
 				link: ROUTE_LIST.listPrescrption,
 				permissions: [],
 			},
+			{
+				name: "List Due Prescription",
+				link: ROUTE_LIST.listDuePrescrption,
+				permissions: [],
+			},
 
 		
 		],
@@ -163,22 +173,22 @@ export const adminSideBarData: NavInterface[] = [
 		name: "Treatment Plan",
 		list: [
 			{
-				name: "Create Treatment",
+				name: "Create Service",
 				link: "/admin/services/create",
 				permissions: [],
 			},
 			{
-				name: "List Treatment Plan",
+				name: "List Service",
 				link: "/admin/services",
 				permissions: [],
 			},
 			{
-				name: "Create Sale",
+				name: "Create Treatement Plan",
 				link: "/admin/sales/create",
 				permissions: [],
 			},
 			{
-				name: "List Sales",
+				name: "List Treatement Plan",
 				link: "/admin/sales",
 				permissions: [],
 			},

@@ -190,6 +190,14 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 							if(!el.due){
 							  el.due = 0	
 							}
+							el.total_prescription_fees = 0;
+							el.total_prescription_paid = 0;
+							el.prescriptions.map((el2:any) => {
+								el.total_prescription_fees += parseFloat(el2.fees)
+								el2.payments.map((el3:any) => {
+									el.total_prescription_paid += parseFloat(el3.amount)
+								})
+							})
 							return (
 								<tr key={el.id}>
 									<td>{el.id}</td>

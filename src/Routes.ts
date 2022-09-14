@@ -168,6 +168,7 @@ export const RouteData: RouteInterface[] = [
 	exact: true,
 	component: ListPrescriptionPage,
 },
+
 {
 	path: ROUTE_LIST.listDuePrescrption,
 	exact: true,

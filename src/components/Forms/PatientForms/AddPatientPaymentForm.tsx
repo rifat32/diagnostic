@@ -108,14 +108,14 @@ const AddPatientPaymentForm: React.FC<UpdateFormInterface> = (props) => {
 			})
 			.catch((error) => {
 				console.log(error);
-				console.log(error.response);
+				console.log(error);
 				if (
-					error.response.status === 404 ||
-					error.response.status === 400
+					error.response?.status === 404 ||
+					error.response?.status === 400
 				) {
 					toast.error(error.response.data.message);
 				}
-				if (error.response.status === 422) {
+				if (error.response?.status === 422) {
 					toast.error("invalid input");
 					setErrors(error.response.data.errors);
 				}

@@ -167,6 +167,24 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 				{data.length ? (
 					<tbody>
 						{data.map((el: any) => {
+							el.sub_total = 0;
+							el.discount = 0;
+							el.line_discount = 0;
+							el.paid=0;
+							el.sales.map((el2:any) => {
+								el.discount += el2.discount
+								el2.sale_details.map((el3:any) => {
+									el.sub_total += el3.amount
+									el.line_discount += el3.line_discount
+
+								})
+								el2.payments?.map((el3:any) => {
+									el.paid += el3.paid_amount
+								})
+								
+							})
+							
+
 							 el.total = parseFloat(el.sub_total) - (parseFloat(el.discount) + parseFloat(el.line_discount))
 							 el.due = (el.total) - (el.paid?parseFloat(el.paid):0)
 							if(!el.due){
@@ -225,7 +243,7 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 															setCurrentPrescriptionPaymentData(el);
 															showPrescriptionPaymentModal(true);
 														}}>
-														 Prescription Plan Payment
+														 Prescription  Payment
 													</a>
 												</li>
 												

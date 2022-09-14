@@ -77,11 +77,11 @@ export const adminSideBarData: NavInterface[] = [
 				link: "/admin/patients/create",
 				permissions: [],
 			},
-			{
-				name: "List Patients",
-				link: "/admin/patients",
-				permissions: [],
-			},
+			// {
+			// 	name: "List Patients",
+			// 	link: "/admin/patients",
+			// 	permissions: [],
+			// },
 			{
 				name: "List Main Patients",
 				link: "/admin/patients/main-patients",

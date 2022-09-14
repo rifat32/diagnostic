@@ -98,7 +98,7 @@ const AddPatientPrescriptionPaymentForm: React.FC<UpdateFormInterface> = (props)
 	}, []);
 	const updateData = () => {
 		apiClient()
-			.post(`${BACKENDAPI}/v1.0/patient/sale-payment`, { ...formData })
+			.post(`${BACKENDAPI}/v1.0/patient/prescription-payment`, { ...formData })
 			.then((response: any) => {
 				console.log(response);
 				toast.success("Payment Added");

@@ -33,7 +33,7 @@ const AddSaleForm: React.FC<UpdateFormInterface> = (props) => {
 		id:"",
 	sale_date: "",
 	remarks:'',
-	status: '',
+	status: 'Confirmed',
 	doctor_id: '',
 	patient_id: '',
 	services:[],
@@ -100,7 +100,7 @@ setFormData({...formData,patient_id:data.id})
 			id:"",
 	sale_date: "",
 	remarks:'',
-	status: '',
+	status: 'Confirmed',
 	doctor_id: '',
 	patient_id: '',
 	services:[],
@@ -436,7 +436,7 @@ if(!foundProduct){
 			</div>
 			<div className="col-md-4">
 			<label htmlFor="status" className="form-label">
-				Appointment Status
+				 Status
 			</label>
 			<select
 				className={

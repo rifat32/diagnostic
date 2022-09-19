@@ -12,6 +12,7 @@ interface FormData {
 	status: string;
 	doctor_id: string;
 	patient_id: string;
+	problem:string;
 	
 
 }
@@ -23,7 +24,7 @@ const AddAppoinmentForm: React.FC<UpdateFormInterface> = (props) => {
 	status: 'Pending Confirmation',
 	doctor_id: '',
 	patient_id: '',
-	
+	problem:''
 	});
 	const [statusList, setStatusList] = useState([
 		"Pending Confirmation",
@@ -77,6 +78,10 @@ setFormData({...formData,patient_id:data.id})
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
+	
+	const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
 	const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
@@ -87,6 +92,7 @@ setFormData({...formData,patient_id:data.id})
 	status: '',
 	doctor_id: '',
 	patient_id: '',
+	problem:''
 		
 		});
 	};
@@ -315,7 +321,31 @@ setFormData({...formData,patient_id:data.id})
 			)}
 			{errors && <div className="valid-feedback">Looks good!</div>}
 		</div>
-	
+		<div className="col-md-4">
+				<label htmlFor="remarks" className="form-label">
+				Problem
+				</label>
+				<textarea
+					className={
+						errors
+							? errors.problem
+								? `form-control is-invalid`
+								: `form-control is-valid`
+							: "form-control"
+					}
+					id="problem"
+					name="problem"
+					onChange={handleTextChange}
+					value={formData.problem}
+				>
+                      
+				</textarea>
+				
+				{errors?.remarks && (
+					<div className="invalid-feedback">{errors.remarks[0]}</div>
+				)}
+				{errors && <div className="valid-feedback">Looks good!</div>}
+			</div>
 
 			<div className="text-center">
 				<button type="submit" className="btn btn-primary me-2">

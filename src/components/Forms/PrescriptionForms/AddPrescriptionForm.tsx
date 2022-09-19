@@ -35,6 +35,7 @@ interface Prescription {
   end_time:string
 }
 interface Test {
+  type:string;
   name: string;
 }
 interface CC {
@@ -53,7 +54,7 @@ const AddPrescriptionForm: React.FC<UpdateFormInterface> = (props) => {
     past_medical_history: "",
     drug_history:"",
   
-    tests: [{ name: "" }],
+    tests: [{ name: "",type:"blood" }],
     next_appointment:'',
     cc:[
       {
@@ -132,7 +133,7 @@ value:""
       prescription: [],
       past_medical_history: "",
       drug_history:"",
-      tests: [{ name: "" }],
+      tests: [{ name: "",type:"blood"  }],
       cc:[ {
         name:"BP",
         value:""
@@ -378,6 +379,15 @@ setFormData({
     tempValues[index][name] = e.target.value;
     setFormData({ ...formData, tests: tempValues });
   };
+  const handleTestSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    let index: number = parseInt(e.target.name.split(".")[1]);
+    let name: string = e.target.name.split(".")[2];
+    console.log(index);
+    const tempValues: any = [...formData.tests];
+    console.log(name);
+    tempValues[index][name] = e.target.value;
+    setFormData({ ...formData, tests: tempValues });
+  };
   const handleCCChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let index: number = parseInt(e.target.name.split(".")[1]);
     let name: string = e.target.name.split(".")[2];
@@ -417,6 +427,7 @@ setFormData({
     const tempValues = [...formData.tests];
     tempValues.push({
       name: "",
+      type:"blood" 
     });
 
     setFormData({ ...formData, tests: tempValues });
@@ -999,7 +1010,38 @@ return   <h5 style={{cursor:"pointer"}} className="border-bottom"  onClick={() =
              <>
                <br />
                <div className="row">
-                 <div className="col-md-10 text-center">
+                 <div className="col-md-4 text-center">
+                  <select
+                   className={
+                    errors
+                      ? errors[`tests.${index}.type`]
+                        ? `form-control is-invalid`
+                        : `form-control is-valid`
+                      : "form-control"
+                  }
+                  id={`tests.${index}.type`}
+                  name={`tests.${index}.type`}
+                  onChange={handleTestSelect}
+                  value={formData.tests[index].type}
+                  >
+                    <option value={"blood"}>Blood</option>
+                    <option value={"xray"}>X-ray</option>
+                  </select>
+
+                  
+                   {errors && (
+                     <>
+                       {errors[`tests.${index}.type`] ? (
+                         <div className="invalid-feedback">
+                           This field is required
+                         </div>
+                       ) : (
+                         <div className="valid-feedback">Looks good!</div>
+                       )}
+                     </>
+                   )}
+                 </div>
+                 <div className="col-md-6 text-center">
                    <input
                      type="text"
                      className={
@@ -1036,6 +1078,7 @@ return   <h5 style={{cursor:"pointer"}} className="border-bottom"  onClick={() =
                    </button>
                  </div>
                </div>
+               
              </>
            );
          })}

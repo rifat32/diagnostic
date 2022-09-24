@@ -125,6 +125,8 @@ const AddPrescriptionPaymentForm: React.FC<UpdateFormInterface> = (props) => {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	return (
+		
+		<>
 		<form className="row g-3" onSubmit={handleSubmit}>
 		<div className="col-md-4">
       Total fee: {formData.fees} <br />
@@ -174,6 +176,28 @@ const AddPrescriptionPaymentForm: React.FC<UpdateFormInterface> = (props) => {
 				</button>
 			</div>
 		</form>
+		<hr />
+		<div>
+<h3 className="text-center">All Payments</h3>
+			<table className="table">
+				<thead>
+					<th>Date</th>
+					<th>Amount</th>
+				</thead>
+				<tbody>
+				{props.value.payments.map((el:any) => {
+       return <tr>
+		<td>{new Date(el.created_at).toDateString()}</td>
+		<td>{el.amount}</td>
+	   </tr>
+	})}
+				</tbody>
+				
+			</table>
+		
+		</div>
+		
+		</>
 	);
 };
 

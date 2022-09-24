@@ -104,8 +104,11 @@ setFormData({...formData,patient_id:data.id})
 	doctor_id: '',
 	patient_id: '',
 	services:[],
-	discount:''
+	discount:'0'
 		});
+		setSearch("")
+		setProducts([])
+		setToggler(!toggler)
 	};
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();

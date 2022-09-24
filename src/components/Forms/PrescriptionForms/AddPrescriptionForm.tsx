@@ -287,9 +287,9 @@ const tempMedicines = medicines.map((el:any) =>{
     product_id:el.product_id,
     product_name:el.product_name,
     times:{
-      morning:el.morning,
-      afternoon:el.afternoon,
-      night:el.night
+      morning: parseInt(el.morning),
+      afternoon:parseInt(el.afternoon),
+      night:parseInt(el.night)
     },
     end_time:el.end_time,
     
